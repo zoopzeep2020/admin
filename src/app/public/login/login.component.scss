@@ -1,0 +1,42 @@
+.box {
+    width: 100%;
+    max-width: 320px;
+    margin: 0px auto;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    .logo {
+        padding: 10px;
+        background-color: #3a3f51;
+        .icon {
+            margin: 0px auto;
+            width: 100%;
+            max-width: 41px;
+        }
+    }
+    .box-body {
+        background-color: white;
+        padding-top: 20px;
+        .heading {
+            text-align: center;
+            p {
+                font-size: 13px;
+                text-transform: uppercase;
+                font-family: sans-serif;
+                font-weight: 100;
+            }
+        }
+    }
+}
+.heading-error{
+    display: block;
+    font-size: 15px;
+    text-align: center;
+    color: #f00;
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    transform: translateX(-50%);
+    left: 50%;
+}

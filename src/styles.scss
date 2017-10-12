@@ -1,0 +1,213 @@
+/* You can add global styles to this file, and also import other style files */
+/*varible*/
+$brand_color: #9a162d;
+
+
+/*fonts*/
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-BlackItalic.eot') format('embedded-opentype'), url('fonts/SofiaPro-BlackItalic.woff') format('woff'), url('fonts/SofiaPro-BlackItalic.ttf') format('truetype'), url('fonts/SofiaPro-BlackItalic.svg') format('svg');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-Black.eot') format('embedded-opentype'), url('fonts/SofiaPro-Black.woff') format('woff'), url('fonts/SofiaPro-Black.ttf') format('truetype'), url('fonts/SofiaPro-Black.svg') format('svg');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-BoldItalic.eot') format('embedded-opentype'), url('fonts/SofiaPro-BoldItalic.woff') format('woff'), url('fonts/SofiaPro-BoldItalic.ttf') format('truetype'), url('fonts/SofiaPro-BoldItalic.svg') format('svg');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-Bold.eot') format('embedded-opentype'), url('fonts/SofiaPro-Bold.woff') format('woff'), url('fonts/SofiaPro-Bold.ttf') format('truetype'), url('fonts/SofiaPro-Bold.svg') format('svg');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-Italic.eot') format('embedded-opentype'), url('fonts/SofiaPro-Italic.woff') format('woff'), url('fonts/SofiaPro-Italic.ttf') format('truetype'), url('fonts/SofiaPro-Italic.svg') format('svg');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-MediumItalic.eot') format('embedded-opentype'), url('fonts/SofiaPro-MediumItalic.woff') format('woff'), url('fonts/SofiaPro-MediumItalic.ttf') format('truetype'), url('fonts/SofiaPro-MediumItalic.svg') format('svg');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaProRegular.eot') format('embedded-opentype'), url('fonts/SofiaProRegular.woff') format('woff'), url('fonts/SofiaProRegular.ttf') format('truetype'), url('fonts/SofiaProRegular.svg') format('svg');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaProExtraLight-Italic.eot') format('embedded-opentype'), url('fonts/SofiaProExtraLight-Italic.woff') format('woff'), url('fonts/SofiaProExtraLight-Italic.ttf') format('truetype'), url('fonts/SofiaProExtraLight-Italic.svg') format('svg');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SofiaPro';
+    src: url('fonts/SofiaPro-ExtraLight.eot') format('embedded-opentype'), url('fonts/SofiaPro-ExtraLight.woff') format('woff'), url('fonts/SofiaPro-ExtraLight.ttf') format('truetype'), url('fonts/SofiaPro-ExtraLight.svg') format('svg');
+    font-weight: 100;
+    font-style: normal;
+}
+
+html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,                    
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,          
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: top;
+}
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+*{
+    box-sizing: border-box;
+}
+*:focus{
+    outline: none;
+}
+body{
+    font-family: 'SofiaPro';
+    font-weight: 500;
+}
+a{
+    text-decoration: none;
+    color: initial;
+    font-family: 'SofiaPro';
+    &:hover{    
+        color: $brand_color;
+    }
+}
+.btn{
+    &:hover{
+        cursor: pointer;
+    }
+}
+form{
+    position: relative;
+    padding: 25px 15px;
+    .input{
+        width: 100%;
+        position: relative;
+        margin-bottom: 15px;
+        input{
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #dde6e9;
+            border-radius: 4px;
+            &:focus{
+                border: 1px solid $brand_color;
+            }
+        }
+        #password, #email{
+            padding: 0 45px 0 15px;
+        }
+        input[type="checkbox"]{
+            line-height: normal;
+            height: initial;
+            width: initial;
+        }
+        input[type="checkbox"] {
+            display:none;
+        }
+
+        input[type="checkbox"] + label {
+            
+                color: #656565
+        }
+
+        input[type="checkbox"] + label span {
+            display:inline-block;
+            width:19px;
+            height:19px;
+            margin:-2px 5px 0 0;
+            vertical-align:middle;
+            background:url(images/check_radio_sheet.png) left top no-repeat;
+            cursor:pointer;
+        }
+
+        input[type="checkbox"]:checked + label span {
+            background:url(images/check_radio_sheet.png) -19px top no-repeat;
+        }
+        .icon{
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 0px;
+            right: 5px;
+            margin: 6px;
+            svg{
+                width: 25px;
+                height: 25px;
+                fill: #ccc;
+            }
+        }
+        .btn{
+            background-color: $brand_color;
+            color:#fff;
+        }
+        .left{
+            float: left;
+            font-size: 14px;
+        }
+        .right{
+            float: right;
+            font-size: 14px;
+            a{
+                color:#909fa7;
+                text-decoration: none;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+
