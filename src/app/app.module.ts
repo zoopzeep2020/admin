@@ -37,6 +37,7 @@ import { DashboardComponent } from './secure/dashboard/dashboard.component';
 import { ControlMessagesComponent } from './control-messages.component';
 import { HeaderComponent } from './secure/common/header/header.component';
 import { LeftSideBarComponent } from './secure/common/left-side-bar/left-side-bar.component';
+import { CategoriesComponent } from './secure/categories/categories.component';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full', },
@@ -53,7 +54,8 @@ const APP_ROUTES: Routes = [
         SecureComponent,
         DashboardComponent,
         HeaderComponent,
-        LeftSideBarComponent
+        LeftSideBarComponent,
+        CategoriesComponent
     ],
     imports: [
         BrowserModule, 

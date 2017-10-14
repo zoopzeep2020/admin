@@ -17,14 +17,14 @@ export class Login {
   }
   
   auth(data) {
-    return this.http.post('http://webrexstudio.com:3001/v1/auth', data).map((res: Response) => res.json())
+    return this.http.post('http://webrexstudio.com:3001/auth', data).map((res: Response) => res.json())
   }
 
-  keywords() {
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get('http://webrexstudio.com:3001/v1/categories', {headers: headers} ).map((res: Response) => res.json())
-  }
+  // keywords() {
+  //   let headers = new Headers();
+  //   this.createAuthorizationHeader(headers);
+  //   return this.http.get('http://webrexstudio.com:3001/v1/categories', {headers: headers} ).map((res: Response) => res.json())
+  // }
 
   // auth() {
   //   return this.http.get('http://webrexstudio.com:3001/v1/catalogs')

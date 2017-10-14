@@ -42,28 +42,16 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    keywords() {
-        this._loginService.keywords().subscribe(
-            response => {
-                // localStorage.setItem('token', response.data.token);
-                console.log(response);
-            },
-            err => {
-                console.log(JSON.parse(err._body));
-            },
-        );
-    }
-
     ngOnInit() {
-        this._loginService.keywords().subscribe(
-            response => {
-                // localStorage.setItem('token', response.data.token);
-                console.log(response);
-            },
-            err => {
-                console.log(JSON.parse(err._body));
-            },
-        )
+        // this._loginService.keywords().subscribe(
+        //     response => {
+        //         // localStorage.setItem('token', response.data.token);
+        //         console.log(response);
+        //     },
+        //     err => {
+        //         console.log(JSON.parse(err._body));
+        //     },
+        // )
     }
 
 }

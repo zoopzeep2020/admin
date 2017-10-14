@@ -126,6 +126,11 @@ a{
         cursor: pointer;
     }
 }
+button{
+    &:hover{
+        cursor: pointer;
+    }
+}
 form{
     position: relative;
     padding: 25px 15px;
@@ -168,13 +173,13 @@ form{
             height:19px;
             margin:-2px 5px 0 0;
             vertical-align:middle;
-            background:url(images/check_radio_sheet.png) left top no-repeat;
+            background:url(assets/images/check_radio_sheet.png) left top no-repeat;
             cursor:pointer;
         }
 
         input[type="checkbox"]:checked + label span {
-            background:url(images/check_radio_sheet.png) -19px top no-repeat;
-        }
+            background:url(assets/images/check_radio_sheet.png) -19px top no-repeat;
+        }                   
         .icon{
             position: absolute;
             width: 25px;
@@ -209,5 +214,156 @@ form{
         }
     }
 }
-
-
+.table-box {
+    width: 100%;
+    border-bottom: 1px solid #d6d4d4;
+    background-color: #eef3f7;
+    padding: 20px;
+    .mini-box {
+        padding-left: 20px;
+        max-width: 100%;
+        .text {
+            display: block;
+            h2 {
+                font-size: 24px;
+                line-height: 1.1;
+                color: #929292;
+                font-weight: 500;
+            }
+        }
+        span {
+            display: block;
+            font-size: 12px;
+            color: #909fa7;
+            font-family: inherit;
+        }
+    }
+}
+.table-scroll {
+    min-width: 660px;
+    border: 2px solid #aaa;
+    box-shadow: 0px -2px 0px 0px #b59a9a;
+    margin: 50px;
+    border-radius: 6px;
+    background-color: white;
+    padding: 10px;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 1000px;
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        thead {
+            th {
+                padding: 10px;
+                text-align: left;
+                color: #888888;
+                font-size: 15px;
+                line-height: 17px;
+                font-weight: 600;
+                font-family: sans-serif;
+            }
+        }
+        tbody {
+            tr {
+                &:nth-child(odd) {
+                    border-top: 1px solid #eaeaea;
+                    background: #fafbfc;
+                }
+                &:nth-child(even) {
+                    background-color: white;
+                }
+                td {
+                    padding: 10px;
+                    line-height: 15px;
+                    text-align: left;
+                    font-size: 15px;
+                    color: #888888;
+                    font-family: sans-serif;
+                    .icon {
+                        height: 20px;
+                        width: 20px;
+                        display: inline-block;
+                        margin-left: 5px;
+                        vertical-align: middle;
+                        &:hover{
+                            cursor: pointer;
+                            svg{
+                                fill:$brand_color;
+                            }
+                        }
+                        svg {
+                            height: 20px;
+                            width: 20px;
+                            fill: currentColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .table-header{
+        .left{
+            float: left;
+        }
+        .right{
+            float:right;
+            button{
+                display: inline-block;
+                vertical-align: middle;
+                padding: 5px 20px;
+                background: none;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: #444;
+            }
+        }
+    }
+}
+.modal{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #d82e2e;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    &.active{
+        display: flex;
+    }
+    .close{
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        right: 35px;
+        top: 75px;
+        &:hover{
+            cursor: pointer;
+            svg{
+                path{
+                    fill:#fff;
+                }
+            }
+        }
+        svg{
+            height: 25px;
+            width: 25px;
+        }
+    }
+    .box{
+        background: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 700px;
+        .label{
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+    
+}
