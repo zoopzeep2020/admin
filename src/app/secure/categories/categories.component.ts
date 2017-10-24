@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder, Validators } from '@angular/forms';
+
 import * as myGlobals from './../../globals';
 import { CategoriesService } from './categories.service';
+
 
 @Component({
     selector: 'app-categories',
@@ -12,20 +15,35 @@ import { CategoriesService } from './categories.service';
 })
 export class CategoriesComponent implements OnInit {
 
-    constructor(private _categoriesService: CategoriesService) { }
     Imagepath =  "http://webrexstudio.com:3001/";
     categories : any[];
     data:any[];
     category: any[];
     currentModal: string;   
+    categoryForm: any;
+
+    constructor(private _categoriesService: CategoriesService,private formBuilder: FormBuilder) { 
+        this.categoryForm = this.formBuilder.group({
+            'category': ['', Validators.required],
+            'categoryImage': ['', Validators.required],
+            'categoryActiveImage': ['', Validators.required],
+        });
+    }
 
     update(index, modal){
-        this.category = this.categories[index];
-
+        this.categoryForm.patchValue(this.categories[index]);
+        console.log(this.categoryForm);
         console.log(modal);
-//        this.currentModal = modal;
         this.currentModal = "categoryModal";
         console.log(this.currentModal);
+    }
+
+    addCategory(){
+        if (this.categoryForm.valid) {
+            console.log('done');
+        }else{
+            console.log('err');
+        }
     }
 
     delete(index){

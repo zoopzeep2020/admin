@@ -99,30 +99,23 @@
 <div class="modal input-modal active"  [ngClass]="{'active': currentModal != categoryModal}">
     <div class="box">
         <div class="input-heading">Add Categories</div>
-        <form [formGroup]="addCategoryForm" (submit)="addCategory()" class="">
+        <form [formGroup]="categoryForm" (submit)="addCategory()" class="">
             <div class="heading-error">{{errorMessage}}</div>
             <div class="input">
                 <div class="label">Category Name:</div>
-                <input formControlName="categoryName" id="categoryname" placeholder="category name"/>
-            </div>
-            <div class="input">
-                <div class="label">Category Active Image:</div>
-                <input formControlName="categoryActiveImage" id="categoryactiveimage" placeholder="active image"/>
+                <input formControlName="category" id="category" placeholder="category name"/>
             </div>
             <div class="input">
                 <div class="label">Category In-active Image:</div>
-                <input formControlName="categoryInActiveImage" id="categoryinactiveimage" placeholder="in active image"/>
-            </div>            
-            <div class="input clearfix">
-                <div class="left">
-                    <input type="checkbox" id="remember_me" name="cc" />
-                    <label for="remember_me"><span></span>Remember Me</label>
-                </div>
-                <div class="right">
-                    <a href="#">Forgot your password?</a>
-                </div>
-            </div>
-            <div (click)="saveUser()" class="input">
+                <img  [attr.src]="Imagepath+categoryForm._value.categoryImage" />
+                <input type="file" formControlName="categoryImage" id="categoryImage" placeholder="in active image"/>
+            </div>  
+            <div class="input">
+                <div class="label">Category Active Image:</div>
+                <img  [attr.src]="Imagepath+categoryForm._value.categoryActiveImage" />
+                <input type="file" formControlName="categoryActiveImage"   accept="image/*"  id="categoryActiveImage" placeholder="active image"/>
+            </div>                        
+            <div (click)="addCategory()" class="input">
                 <input type="submit" value="Login" class="btn">
             </div>
         </form>
