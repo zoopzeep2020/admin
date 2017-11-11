@@ -113,6 +113,7 @@ $brand_color: #9a162d;
                     }
                     .text {
                         color: $brand_color;
+                        font-weight: bold;
                     }
                 }
                 .icon {
@@ -134,7 +135,16 @@ $brand_color: #9a162d;
                     font-size: 13px;
                 }
                 &.active {
-                    padding: 28px 25px;
+                    background: $brand_color;
+                    .icon {
+                        svg {
+                            fill: #fff;
+                        }
+                    }
+                    .text {
+                        color: #fff;
+                        font-weight: bold;
+                    }
                 }
             }
         }

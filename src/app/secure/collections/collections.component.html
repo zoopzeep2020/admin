@@ -1,0 +1,123 @@
+<div class="table-box">
+    <div class="mini-box">
+        <div class="text">
+            <h2>Collections</h2>
+        </div>
+        <span>Collections table</span>
+    </div>
+</div>
+<div class="table-scroll">
+    <div class="table-header clearfix">
+        <div class="left">
+            <p>Collection</p>
+        </div>
+        <div class="right">
+            <button class="add-button" (click)="add()">Add</button>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Collection images </th>
+                <th>Collection Type</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let collection of collections; let i = index">
+                <td>{{collection.collectionName}}</td>
+                <td>
+                    <img [attr.src]="apiUrl+collection.collectionPicture" />
+                </td>
+                <td>{{collection.collectionType}}</td>
+                <td>
+                    <div class="icon" (click)="update(i, 'collectionModal')">
+                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;"> <g> <g><polygon points="315.982,68.752 294.766,89.969 422.044,217.238 443.257,196.027 "/></g> </g> <g> <g> <path d="M485.677,26.323c-35.098-35.097-92.168-35.098-127.266,0l-21.218,21.218l127.273,127.273l21.211-21.211 C520.775,118.505,520.775,61.42,485.677,26.323z"/> </g> </g> <g> <g> <polygon points="59.011,332.778 34.257,392.886 119.111,477.748 179.227,452.994 "/> </g> </g> <g> <g> <polygon points="273.555,111.18 76.69,308.035 203.97,435.315 400.835,238.451 "/> </g> </g> <g> <g> <path d="M21.882,422.934L2.276,470.545c-4.629,11.235-2.065,24.038,6.504,32.637c8.45,8.45,21.183,11.25,32.666,6.548 l47.618-19.609L21.882,422.934z"/> </g> </g> </svg>
+                    </div>
+                    <div class="icon" (click)="delete(i)">
+                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"> <g> <g> <path d="M62.29,180l26.27,291.07C90.7,494.41,109.95,512,133.39,512H378.6c23.44,0,42.69-17.59,44.83-40.93L449.7,180H62.29z M178.95,451.99c-0.24,0.01-0.47,0.01-0.68,0.01c-7.97,0-14.62-6.27-14.97-14.31l-9.55-212c-0.38-8.28,6.01-15.29,14.3-15.67 c9.37-0.27,15.29,6.05,15.64,14.29l9.55,212C193.62,444.59,187.24,451.61,178.95,451.99z M271,437c0,8.29-6.71,15-15,15 c-8.29,0-15-6.71-15-15V225c0-8.29,6.71-15,15-15c8.29,0,15,6.71,15,15V437z M348.69,437.69c-0.35,8.04-7,14.31-14.97,14.31 c-0.2,0-0.44,0-0.67-0.01c-8.29-0.38-14.68-7.4-14.3-15.68l9.55-212c0.38-8.24,6.33-14.44,15.65-14.29 c8.29,0.38,14.67,7.39,14.29,15.67L348.69,437.69z"/> </g> </g> <g> <g> <path d="M406,60h-45V45c0-24.81-20.19-45-45-45H196c-24.82,0-45,20.19-45,45v15h-45c-41.37,0-75,33.65-75,75v15h450v-15 C481,93.65,447.36,60,406,60z M331,60H181V45c0-8.28,6.73-15,15-15h120c8.26,0,15,6.72,15,15V60z"/> </g> </g> </svg>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal input-modal active" [ngClass]="{'active': currentModal != collectionModal}">
+    <div class="box">
+        <div class="input-heading">{{modalMode}} Collections</div>
+        <form [formGroup]="collectionForm" class="">
+            <div class="heading-error">{{errorMessage}}</div>
+            <div class="input">
+                <div class="label">Collection Name:</div>
+                <input formControlName="collectionName" id="collectionName" placeholder="collection name" required/>
+                <control-messages [control]="collectionForm.controls.collectionName"></control-messages>
+            </div>
+            <div class="input">
+                <div class="label">Collection type:</div>
+                <select formControlName="collectionType">
+                    <option value="store">store</option>
+                    <option value="offer">offer</option>
+                    <option value="cataloge">cataloge</option>
+                </select>
+                <control-messages [control]="collectionForm.controls.collectionType"></control-messages>
+            </div>
+            <div class="input">
+                <div class="label">Collection Image:</div>
+                <input type="file" fileName="collectionPicture" (change)="onFileChange($event)" accept="image/*" placeholder="Collection Image"
+                    id="collectionPicture" />
+                <input type="hidden" name="fileHidden" formControlName="collectionPicture" />
+                <control-messages [control]="collectionForm.controls.collectionPicture"></control-messages>
+            </div>
+            <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'store'">
+                <div class="label">Select store:</div>
+                <input formControlName="searchStore" id="searchStore" placeholder="Search store" />
+                <ul class="result" [ngClass]="{'active': storeResultDropdown}">
+                    <li *ngFor="let store of storeResult; let i = index" (click)="storeSelect(i)">{{store.storeName}}</li>
+                </ul>
+                <ul class="selected">
+                    <li *ngFor="let store of selectedStore; let i = index">
+                        <span>{{store.storeName}}</span>
+                        <span class="remove" (click)="removeStore(i)">X</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'cataloge'">
+                <div class="label">Select cataloge:</div>
+                <input formControlName="searchCataloge" id="searchCataloge" placeholder="Search cataloge" />
+                <ul class="result" [ngClass]="{'active': catalogeResultDropdown}">
+                    <li *ngFor="let cataloge of catalogeResult; let i = index" (click)="catalogeSelect(i)">{{cataloge.catalogDescription}}</li>
+                </ul>
+                <ul class="selected">
+                    <li *ngFor="let cataloge of selectedCataloge; let i = index">
+                        <span>{{cataloge.catalogDescription}}</span>
+                        <span class="remove" (click)="removeCataloge(i)">X</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'offer'">
+                <div class="label">Select offer:</div>
+                <input formControlName="searchOffer" id="searchOffer" placeholder="Search offer" />
+                <ul class="result" [ngClass]="{'active': offerResultDropdown}">
+                    <li *ngFor="let offer of offerResult; let i = index" (click)="offerSelect(i)">{{offer.offerName}}</li>
+                </ul>
+                <ul class="selected">
+                    <li *ngFor="let offer of selectedOffer; let i = index">
+                        <span>{{offer.offerName}}</span>
+                        <span class="remove" (click)="removeOffer(i)">X</span>
+                    </li>
+                </ul>
+            </div>
+            <div (click)="addOREditCollection()" class="input">
+                {{modalMode}}
+            </div>
+        </form>
+    </div>
+    <div class="close" (click)="closeModal()">
+        <svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;height: 25px;width: 25px;" version="1.1" viewBox="0 0 512 512"
+            width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"></path>
+        </svg>
+    </div>
+</div>

@@ -5,74 +5,72 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ValidationService } from './../../validationService.service';
 import * as globals from './../../globals';
-import { CategoriesService } from './categories.service';
+import { keywordsService } from './keywords.service';
 
 
 @Component({
-    selector: 'app-categories',
-    templateUrl: './categories.component.html',
-    styleUrls: ['./categories.component.scss'],
-    providers: [CategoriesService]
+    selector: 'app-keywords',
+    templateUrl: './keywords.component.html',
+    styleUrls: ['./keywords.component.scss'],
+    providers: [keywordsService]
 })
-export class CategoriesComponent implements OnInit {
+export class KeywordsComponent implements OnInit {
 
-    categories: any[];
-    category: any[];
-    currentModal: any;
-    categoryForm: any;
+    keywords: any[];
+    currentModal: string;
+    keywordForm: any;
     apiUrl: string = globals.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;
 
-    constructor(private _categoriesService: CategoriesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
-        this.categoryForm = this.formBuilder.group({
-            'category': ['', [Validators.required, , Validators.minLength(2)]],
-            'categoryImage': ['', [Validators.required, ValidationService.imageValidator]],
-            'categoryActiveImage': ['', [Validators.required, ValidationService.imageValidator]],
+    constructor(private _keywordsService: keywordsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+        this.keywordForm = this.formBuilder.group({
+            'title': ['', [Validators.required, , Validators.minLength(2)]],
         });
     }
 
     onFileChange($event) {
         let fileName = $event.target.getAttribute("fileName");
-        this.categoryForm.controls[fileName].setValue($event.target.files[0]);
+        this.keywordForm.controls[fileName].setValue($event.target.files[0]);
     }
 
     update(index, modal) {
-        this.categoryForm.patchValue(this.categories[index]);
-        this.updateId = this.categories[index]._id;
-        this.currentModal = "categoryModal";
+        this.keywordForm.patchValue(this.keywords[index]);
+        this.updateId = this.keywords[index]._id;
+        this.currentModal = "keywordModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Update";
     }
 
     add(modal) {
-        this.currentModal = "categoryModal";
+        this.currentModal = "keywordModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Add";
     }
 
-    addOREditCategory() {
-        if (this.categoryForm.valid) {
+    addOREditKeyword() {
+        if (this.keywordForm.valid) {
             if (this.modalMode === "Update") {
-                this._categoriesService.update(this.updateId, this.categoryForm._value).subscribe(
+                this._keywordsService.update(this.updateId, this.keywordForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.categoryForm.reset();
+                        this.keywordForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
                     },
                 );
             } else {
-                this._categoriesService.add(this.categoryForm._value).subscribe(
+                console.log(this.keywordForm);
+                this._keywordsService.add(this.keywordForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.categoryForm.reset();
+                        this.keywordForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
@@ -80,13 +78,12 @@ export class CategoriesComponent implements OnInit {
                 );
             }
         } else {
-            console.log(this.categoryForm);
-            ValidationService.validateAllFormFields(this.categoryForm);
+            ValidationService.validateAllFormFields(this.keywordForm);
         }
     }
 
     delete(index) {
-        this._categoriesService.delete(this.categories[index]._id).subscribe(
+        this._keywordsService.delete(this.keywords[index]._id).subscribe(
             response => {
                 this.get();
             },
@@ -99,15 +96,17 @@ export class CategoriesComponent implements OnInit {
     closeModal() {
         this.currentModal = null;
         this.renderer.removeClass(document.body, 'modal-active');
-        this.categoryForm.reset();
+        this.keywordForm.reset();
     }
 
     get() {
-        this._categoriesService.getAll().subscribe(
+        this._keywordsService.getAll().subscribe(
             response => {
-                this.categories = response['data'];
+                this.keywords = response['data'];
+                console.log(this.keywords);
             },
             err => {
+                console.log(JSON.parse(err._body));
             },
         )
     }
@@ -115,7 +114,4 @@ export class CategoriesComponent implements OnInit {
     ngOnInit() {
         this.get();
     }
-
-
-
 }

@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import * as myGlobals from './globals';
+
 // We need to import the ReactiveFormsModule and HttpModule--for--form 
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,16 +15,17 @@ import { PUBLIC_ROUTES } from './public/public.route';
 import { SECURE_ROUTES } from './secure/secure.route';
 
 //app-services
-import { MyService } from './my-service.service';                   
+import { ValidationService } from './validationService.service';
 import { AuthGuardService } from './services/authGuard.service';
 import { AuthGuardForLoggedIn } from './services/authGuardForLoggedIn.service';
 
-
+//plugin 
+import { QuillEditorModule } from 'ngx-quill-editor';
 
 //app-components
-import { AppComponent } from './app.component';   
+import { AppComponent } from './app.component';
 
-//public-components
+//public-components         
 import { PublicComponent } from './public/public.component';
 import { LoginComponent } from './public/login/login.component';
 
@@ -38,6 +41,11 @@ import { ControlMessagesComponent } from './control-messages.component';
 import { HeaderComponent } from './secure/common/header/header.component';
 import { LeftSideBarComponent } from './secure/common/left-side-bar/left-side-bar.component';
 import { CategoriesComponent } from './secure/categories/categories.component';
+import { KeywordsComponent } from './secure/keywords/keywords.component';
+import { BlogsComponent } from './secure/blogs/blogs.component';
+import { ReportReviewsComponent } from './secure/report-reviews/report-reviews.component';
+import { AdminKeyComponent } from './secure/admin-key/admin-key.component';
+import { CollectionsComponent } from './secure/collections/collections.component';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full', },
@@ -55,22 +63,28 @@ const APP_ROUTES: Routes = [
         DashboardComponent,
         HeaderComponent,
         LeftSideBarComponent,
-        CategoriesComponent
+        CategoriesComponent,
+        KeywordsComponent,
+        BlogsComponent,
+        ReportReviewsComponent,
+        AdminKeyComponent,
+        CollectionsComponent
     ],
     imports: [
-        BrowserModule, 
+        BrowserModule,
         HttpClientModule,
         RouterModule.forRoot(APP_ROUTES),
         ReactiveFormsModule,
-        HttpModule
+        HttpModule,
+        QuillEditorModule
     ],
-    providers: [MyService, AuthGuardService, AuthGuardForLoggedIn],
+    providers: [ValidationService, AuthGuardService, AuthGuardForLoggedIn],
     bootstrap: [AppComponent]
 })
 
-@Component ({  
-    providers : [ ] 
+@Component({
+    providers: []
 })
-export class AppModule { 
-    
+export class AppModule {
+
 }

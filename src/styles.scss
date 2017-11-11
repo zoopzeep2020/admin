@@ -111,7 +111,10 @@ img{
 }
 body{
     font-family: 'SofiaPro';
-    font-weight: 500;
+    font-weight: 700;
+    &.modal-active{
+        overflow: hidden;
+    }
 }
 a{
     text-decoration: none;
@@ -138,7 +141,7 @@ form{
         width: 100%;
         position: relative;
         margin-bottom: 15px;
-        input{                  
+        input, select{                  
             width: 100%;
             height: 40px;
             line-height: 40px;
@@ -215,6 +218,50 @@ form{
         }
     }
 }
+ul.result{
+    position: absolute;
+    left: 0px;
+    background: #ffffff;
+    display: block;
+    width: 100%;
+    border: 1px solid #cacaca;
+    z-index: 10;
+    max-height: 0px;
+    display: none;
+    li{
+        padding: 5px 10px;
+        
+        &:hover{
+            background: $brand_color;
+            color: white;
+            cursor: pointer;
+        }
+    }
+    &.active{
+        display: block;
+        overflow: auto;
+        max-height: 250px;
+    }
+}
+ul.selected{
+    margin: 10px 0px;
+    li{
+        padding: 5px 10px;
+        display: inline-block;
+        background: white;
+        border: 1px solid $brand_color;
+        color: $brand_color;
+        margin: 0px 10px;
+        .remove{
+            color:  gray;
+            margin-left: 5px;
+            &:hover{
+                cursor: pointer;
+                color: $brand_color;
+            }
+        }
+    }
+}
 .table-box {
     width: 100%;
     border-bottom: 1px solid #d6d4d4;
@@ -281,6 +328,9 @@ form{
                     font-size: 15px;
                     color: #888888;
                     font-family: sans-serif;
+                    img{
+                        max-width: 100px;
+                    }           
                     .icon {
                         height: 20px;
                         width: 20px;
@@ -322,30 +372,40 @@ form{
     }
 }
 .modal{
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #d82e2e;
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
+    position: fixed;
     top: 0px;
-    left: 0px;
-    background: rgba(0, 0, 0, 0.7);
+    left: 0px;          
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: -1;
+    padding: 15px;
+    transition: z-index 0s ease 0.5s, all 0.5s ease 0s;
+    overflow: auto;
     &.active{
-        display: flex;
+        opacity: 1;
+        z-index: 9999;
+        display: block;
+        transition: all 0.5s ease 0s;
     }
     .close{
         height: 25px;
         width: 25px;
         position: absolute;
-        right: 35px;
-        top: 75px;
+        right:25px;
+        top:25px;
+        svg{
+            path{
+                fill:#fff;
+            }
+        }
         &:hover{
             cursor: pointer;
             svg{
                 path{
-                    fill:#fff;
+                    fill:$brand_color;
                 }
             }
         }
@@ -355,16 +415,11 @@ form{
         }
     }
     .box{
-        background: #fff;
-        padding: 10px;
-        border-radius: 5px;
-        width: 100%;
+        background: white;
         max-width: 700px;
-        .label{
-            margin-bottom: 5px;
-            font-size: 16px;
-            font-weight: 600;
-        }
+        margin: 0px auto;
+        padding: 10px;
+        width: 100%;
     }
     
 }

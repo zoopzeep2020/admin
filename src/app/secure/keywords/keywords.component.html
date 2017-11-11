@@ -1,15 +1,15 @@
 <div class="table-box">
     <div class="mini-box">
         <div class="text">
-            <h2>Categories</h2>
+            <h2>Keywords</h2>
         </div>
-        <span>Categories table</span>
+        <span>Keywords Table</span>
     </div>
 </div>
 <div class="table-scroll">
     <div class="table-header clearfix">
         <div class="left">
-            <p>Categrories</p>
+            <p>Keywords</p>
         </div>
         <div class="right">
             <button class="add-button" (click)="add()">Add</button>
@@ -18,23 +18,15 @@
     <table>
         <thead>
             <tr>
-                <th>Categories name</th>
-                <th>Active images </th>
-                <th>InActive images </th>
+                <th>Title</th>
                 <th> </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let category of categories; let i = index">
-                <td>{{category.category}}</td>
+            <tr *ngFor="let keyword of keywords; let i = index">
+                <td>{{keyword.title}}</td>
                 <td>
-                    <img [attr.src]="apiUrl+category.categoryImage" />
-                </td>
-                <td>
-                    <img [attr.src]="apiUrl+category.categoryActiveImage" />
-                </td>
-                <td>
-                    <div class="icon" (click)="update(i, 'categoryModal')">
+                    <div class="icon" (click)="update(i, 'keywordModal')">
                         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;"> <g> <g><polygon points="315.982,68.752 294.766,89.969 422.044,217.238 443.257,196.027 "/></g> </g> <g> <g> <path d="M485.677,26.323c-35.098-35.097-92.168-35.098-127.266,0l-21.218,21.218l127.273,127.273l21.211-21.211 C520.775,118.505,520.775,61.42,485.677,26.323z"/> </g> </g> <g> <g> <polygon points="59.011,332.778 34.257,392.886 119.111,477.748 179.227,452.994 "/> </g> </g> <g> <g> <polygon points="273.555,111.18 76.69,308.035 203.97,435.315 400.835,238.451 "/> </g> </g> <g> <g> <path d="M21.882,422.934L2.276,470.545c-4.629,11.235-2.065,24.038,6.504,32.637c8.45,8.45,21.183,11.25,32.666,6.548 l47.618-19.609L21.882,422.934z"/> </g> </g> </svg>
                     </div>
                     <div class="icon" (click)="delete(i)">
@@ -46,31 +38,17 @@
     </table>
 </div>
 
-<div class="modal input-modal active" [ngClass]="{'active': currentModal != categoryModal}">
+<div class="modal input-modal active" [ngClass]="{'active': currentModal != keywordModal}">
     <div class="box">
-        <div class="input-heading">{{modalMode}} Categories</div>
-        <form [formGroup]="categoryForm" class="">
+        <div class="input-heading">{{modalMode}} Keywords</div>
+        <form [formGroup]="keywordForm" class="">
             <div class="heading-error">{{errorMessage}}</div>
             <div class="input">
-                <div class="label">Category Name:</div>
-                <input formControlName="category" id="category" placeholder="category name" required/>
-                <control-messages [control]="categoryForm.controls.category"></control-messages>
+                <div class="label">Keyword Title:</div>
+                <input formControlName="title" id="title" placeholder="Keyword " required/>
+                <control-messages [control]="keywordForm.controls.title"></control-messages>
             </div>
-            <div class="input">
-                <div class="label">Category In-active Image:</div>
-                <input type="file" fileName="categoryImage" (change)="onFileChange($event)" accept="image/*" placeholder="in active image"
-                    id="categoryImage" />
-                <input type="hidden" name="fileHidden" formControlName="categoryImage" />
-                <control-messages [control]="categoryForm.controls.categoryImage"></control-messages>
-            </div>
-            <div class="input">
-                <div class="label">Category Active Image:</div>
-                <input type="file" fileName="categoryActiveImage" (change)="onFileChange($event)" accept="image/*" id="categoryActiveImage"
-                    placeholder="active image" />
-                <input type="hidden" name="fileHidden" formControlName="categoryActiveImage" />
-                <control-messages [control]="categoryForm.controls.categoryActiveImage"></control-messages>
-            </div>
-            <div (click)="addOREditCategory()" class="input">
+            <div (click)="addOREditKeyword()" class="input">
                 {{modalMode}}
             </div>
         </form>

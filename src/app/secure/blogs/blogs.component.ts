@@ -5,74 +5,77 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ValidationService } from './../../validationService.service';
 import * as globals from './../../globals';
-import { CategoriesService } from './categories.service';
+import { BlogsService } from './blogs.service';
 
 
 @Component({
-    selector: 'app-categories',
-    templateUrl: './categories.component.html',
-    styleUrls: ['./categories.component.scss'],
-    providers: [CategoriesService]
+    selector: 'app-blogs',
+    templateUrl: './blogs.component.html',
+    styleUrls: ['./blogs.component.scss'],
+    providers: [BlogsService]
 })
-export class CategoriesComponent implements OnInit {
+export class BlogsComponent implements OnInit {
 
-    categories: any[];
-    category: any[];
+    blogs: any[];
+    blog: any[];
     currentModal: any;
-    categoryForm: any;
+    blogForm: any;
     apiUrl: string = globals.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;
 
-    constructor(private _categoriesService: CategoriesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
-        this.categoryForm = this.formBuilder.group({
-            'category': ['', [Validators.required, , Validators.minLength(2)]],
-            'categoryImage': ['', [Validators.required, ValidationService.imageValidator]],
-            'categoryActiveImage': ['', [Validators.required, ValidationService.imageValidator]],
+    constructor(private _blogsService: BlogsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+        this.blogForm = this.formBuilder.group({
+            'title': ['', [Validators.required, , Validators.minLength(2)]],
+            'blogPicture': ['', [Validators.required, ValidationService.imageValidator]],
+            'authorName': ['', [Validators.required, , Validators.minLength(2)]],
+            'authorImage': ['', [Validators.required, ValidationService.imageValidator]],
+            'description': ['', [Validators.required, Validators.minLength(500)]],
         });
     }
 
     onFileChange($event) {
         let fileName = $event.target.getAttribute("fileName");
-        this.categoryForm.controls[fileName].setValue($event.target.files[0]);
+        this.blogForm.controls[fileName].setValue($event.target.files[0]);
     }
 
     update(index, modal) {
-        this.categoryForm.patchValue(this.categories[index]);
-        this.updateId = this.categories[index]._id;
-        this.currentModal = "categoryModal";
+        this.blogForm.patchValue(this.blogs[index]);
+        this.updateId = this.blogs[index]._id;
+        this.currentModal = "blogModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Update";
     }
 
     add(modal) {
-        this.currentModal = "categoryModal";
-        this.renderer.addClass(document.body, 'modal-active');
+        this.currentModal = "blogModal";
         this.modalMode = "Add";
+        this.renderer.addClass(document.body, 'modal-active');
     }
 
-    addOREditCategory() {
-        if (this.categoryForm.valid) {
+    addOREditBlog() {
+        console.log(this.blogForm._value);
+        if (this.blogForm.dirty && this.blogForm.valid) {
             if (this.modalMode === "Update") {
-                this._categoriesService.update(this.updateId, this.categoryForm._value).subscribe(
+                this._blogsService.update(this.updateId, this.blogForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.categoryForm.reset();
+                        this.blogForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
                     },
                 );
             } else {
-                this._categoriesService.add(this.categoryForm._value).subscribe(
+                this._blogsService.add(this.blogForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.categoryForm.reset();
+                        this.blogForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
@@ -80,13 +83,13 @@ export class CategoriesComponent implements OnInit {
                 );
             }
         } else {
-            console.log(this.categoryForm);
-            ValidationService.validateAllFormFields(this.categoryForm);
+            console.log(this.blogForm);
+            ValidationService.validateAllFormFields(this.blogForm);
         }
     }
 
     delete(index) {
-        this._categoriesService.delete(this.categories[index]._id).subscribe(
+        this._blogsService.delete(this.blogs[index]._id).subscribe(
             response => {
                 this.get();
             },
@@ -98,14 +101,15 @@ export class CategoriesComponent implements OnInit {
 
     closeModal() {
         this.currentModal = null;
+        this.blogForm.reset();
         this.renderer.removeClass(document.body, 'modal-active');
-        this.categoryForm.reset();
     }
 
     get() {
-        this._categoriesService.getAll().subscribe(
+        this._blogsService.getAll().subscribe(
             response => {
-                this.categories = response['data'];
+                this.blogs = response['data'];
+                console.log(this.blogs);
             },
             err => {
             },
@@ -115,7 +119,4 @@ export class CategoriesComponent implements OnInit {
     ngOnInit() {
         this.get();
     }
-
-
-
 }

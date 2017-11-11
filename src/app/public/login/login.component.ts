@@ -2,32 +2,63 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { MyService } from '../../my-service.service';
+import { ValidationService } from './../../validationService.service';
 import { Login } from './login.service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    providers: [Login, MyService]
+    providers: [Login]
 
 })
 export class LoginComponent implements OnInit {
 
-    userForm: any;
     loginForm: any;
+    signupForm: any;
     errorMessage: any;
+    loginFormActive: any;
+
     constructor(private formBuilder: FormBuilder, private _loginService: Login, private router: Router) {
-        this.userForm = this.formBuilder.group({
+
+        this.loginForm = this.formBuilder.group({
             'password': ['', Validators.required],
-            'email': ['', [Validators.required, MyService.emailValidator]],
-            // 'profile': ['', [Validators.required, Validators.minLength(10)]]   
+            'email': ['', [Validators.required, ValidationService.emailValidator]],
+        });
+
+        console.log(this.loginForm);
+
+        this.signupForm = this.formBuilder.group({
+            'password': ['', [Validators.required]],
+            'email': ['', [Validators.required, ValidationService.emailValidator]],
+            'adminKey': ['', [Validators.required]],
         });
     }
 
-    saveUser() {
-        if (this.userForm.valid) {
-            this._loginService.auth(this.userForm._value).subscribe(
+    login() {
+        if (this.loginForm.dirty && this.loginForm.valid) {
+            this._loginService.auth(this.loginForm._value).subscribe(
+                response => {
+                    if (response.data.isAdmin == true) {
+                        this.router.navigate(['/dashboard']);
+                        localStorage.setItem('token', response.data.token);
+                        console.log(response);
+                    } else {
+                        this.errorMessage = "You are not admin.";
+                    }
+                },
+                err => {
+                    this.router.navigate(['/login']);
+                    console.log(JSON.parse(err._body).message);
+                    this.errorMessage = JSON.parse(err._body).message;
+                },
+            );
+        }
+    }
+
+    signup() {
+        if (this.signupForm.dirty && this.signupForm.valid) {
+            this._loginService.signup(this.signupForm._value).subscribe(
                 response => {
                     this.router.navigate(['/dashboard']);
                     localStorage.setItem('token', response.data.token);
@@ -36,22 +67,17 @@ export class LoginComponent implements OnInit {
                 err => {
                     console.log(JSON.parse(err._body).message);
                     this.errorMessage = JSON.parse(err._body).message;
-                    this.router.navigate(['/login']);
                 },
             );
         }
     }
 
+    changeForm() {
+        this.loginFormActive = !this.loginFormActive;
+    }
+
     ngOnInit() {
-        // this._loginService.keywords().subscribe(
-        //     response => {
-        //         // localStorage.setItem('token', response.data.token);
-        //         console.log(response);
-        //     },
-        //     err => {
-        //         console.log(JSON.parse(err._body));
-        //     },
-        // )
+        this.loginFormActive = true;
     }
 
 }
