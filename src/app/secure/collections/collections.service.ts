@@ -42,6 +42,13 @@ export class CollectionsService {
         return this.http.get(globals.apiUrl + 'offers/search?search=' + search, { headers: headers }).map((res: Response) => res.json())
     }
 
+    getCity(search) {
+        let headers = new Headers();
+        this.basicAuthorizationHeader(headers);
+        return this.http.get(globals.apiUrl + 'cities/searchByWord?search=' + search, { headers: headers }).map((res: Response) => res.json())
+    }
+
+
     add(data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);

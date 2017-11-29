@@ -7,6 +7,7 @@ import { BlogsComponent } from './blogs/blogs.component';
 import { ReportReviewsComponent } from './report-reviews/report-reviews.component';
 import { AdminKeyComponent } from './admin-key/admin-key.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { StaticPagesComponent } from './static-pages/static-pages.component';
 
 export const SECURE_ROUTES: Routes = [
     {
@@ -37,6 +38,9 @@ export const SECURE_ROUTES: Routes = [
         path: 'adminKey',
         component: AdminKeyComponent
     },
-
+    {
+        path: 'static-pages',
+        component: StaticPagesComponent
+    },
 ];
 

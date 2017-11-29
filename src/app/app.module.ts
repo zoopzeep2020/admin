@@ -46,6 +46,7 @@ import { BlogsComponent } from './secure/blogs/blogs.component';
 import { ReportReviewsComponent } from './secure/report-reviews/report-reviews.component';
 import { AdminKeyComponent } from './secure/admin-key/admin-key.component';
 import { CollectionsComponent } from './secure/collections/collections.component';
+import { StaticPagesComponent } from './secure/static-pages/static-pages.component';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full', },
@@ -68,7 +69,8 @@ const APP_ROUTES: Routes = [
         BlogsComponent,
         ReportReviewsComponent,
         AdminKeyComponent,
-        CollectionsComponent
+        CollectionsComponent,
+        StaticPagesComponent
     ],
     imports: [
         BrowserModule,

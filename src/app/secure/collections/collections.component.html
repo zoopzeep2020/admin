@@ -64,6 +64,14 @@
                 <control-messages [control]="collectionForm.controls.collectionType"></control-messages>
             </div>
             <div class="input">
+                <div class="label">Store type:</div>
+                <select formControlName="storeType">
+                    <option value="buisnessOnline">Online</option>
+                    <option value="buisnessOffline">Offline</option>
+                </select>
+                <control-messages [control]="collectionForm.controls.storeType"></control-messages>
+            </div>
+            <div class="input">
                 <div class="label">Collection Image:</div>
                 <input type="file" fileName="collectionPicture" (change)="onFileChange($event)" accept="image/*" placeholder="Collection Image"
                     id="collectionPicture" />
@@ -72,7 +80,7 @@
             </div>
             <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'store'">
                 <div class="label">Select store:</div>
-                <input formControlName="searchStore" id="searchStore" placeholder="Search store" />
+                <input formControlName="searchStore" id="searchStore" placeholder="Search store" autocomplete="off" />
                 <ul class="result" [ngClass]="{'active': storeResultDropdown}">
                     <li *ngFor="let store of storeResult; let i = index" (click)="storeSelect(i)">{{store.storeName}}</li>
                 </ul>
@@ -85,7 +93,7 @@
             </div>
             <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'cataloge'">
                 <div class="label">Select cataloge:</div>
-                <input formControlName="searchCataloge" id="searchCataloge" placeholder="Search cataloge" />
+                <input formControlName="searchCataloge" id="searchCataloge" placeholder="Search cataloge" autocomplete="off" />
                 <ul class="result" [ngClass]="{'active': catalogeResultDropdown}">
                     <li *ngFor="let cataloge of catalogeResult; let i = index" (click)="catalogeSelect(i)">{{cataloge.catalogDescription}}</li>
                 </ul>
@@ -98,7 +106,7 @@
             </div>
             <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'offer'">
                 <div class="label">Select offer:</div>
-                <input formControlName="searchOffer" id="searchOffer" placeholder="Search offer" />
+                <input formControlName="searchOffer" id="searchOffer" placeholder="Search offer" autocomplete="off" />
                 <ul class="result" [ngClass]="{'active': offerResultDropdown}">
                     <li *ngFor="let offer of offerResult; let i = index" (click)="offerSelect(i)">{{offer.offerName}}</li>
                 </ul>
@@ -109,6 +117,20 @@
                     </li>
                 </ul>
             </div>
+            <div class="input">
+                <div class="label">Select city:</div>
+                <input formControlName="searchCity" id="searchCity" placeholder="Search city" autocomplete="off" />
+                <ul class="result" [ngClass]="{'active': cityResultDropdown}">
+                    <li *ngFor="let city of cityResult; let i = index" (click)="citySelect(i)">{{city.cityName}}</li>
+                </ul>
+                <ul class="selected">
+                    <li *ngFor="let city of selectedCity; let i = index">
+                        <span>{{city.cityName}}</span>
+                        <span class="remove" (click)="removeCity(i)">X</span>
+                    </li>
+                </ul>
+            </div>
+
             <div (click)="addOREditCollection()" class="input">
                 {{modalMode}}
             </div>

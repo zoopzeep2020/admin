@@ -37,6 +37,9 @@ export class CollectionsComponent implements OnInit {
     offerResult: any;
     selectedOffer: any = [];
     offerResultDropdown: any = false;
+    cityResult: any;
+    selectedCity: any = [];
+    cityResultDropdown: any = false;
 
     constructor(private _collectionsService: CollectionsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.collectionForm = this.formBuilder.group({
@@ -49,6 +52,12 @@ export class CollectionsComponent implements OnInit {
             'searchCataloge': [''],
             'offerId': [[]],
             'searchOffer': [''],
+            'cityName': [[]],
+            'searchCity': [''],
+            'storeType': [, [Validators.required, ValidationService.imageValidator]],
+            'buisnessOffline': [],
+            'buisnessOnline': []
+
         });
     }
 
@@ -74,6 +83,13 @@ export class CollectionsComponent implements OnInit {
     }
 
     addOREditCollection() {
+        if (this.collectionForm.controls.storeType.value === 'buisnessOffline') {
+            this.collectionForm.controls.buisnessOffline.setValue(true);
+            this.collectionForm.controls.buisnessOnline.setValue(false);
+        } else if (this.collectionForm.controls.storeType.value === 'buisnessOnline') {
+            this.collectionForm.controls.buisnessOnline.setValue(true);
+            this.collectionForm.controls.buisnessOnline.setValue(false);
+        }
         console.log(this.collectionForm);
         if (this.collectionForm.valid) {
             if (this.modalMode === "Update") {
@@ -246,10 +262,47 @@ export class CollectionsComponent implements OnInit {
     }
     // offer auto select end
 
+    //city auto select start
+    searchCity(search) {
+        if (search != null) {
+            this._collectionsService.getCity(search).subscribe(
+                response => {
+                    this.cityResult = response['data'];
+                    if (this.cityResult.length == 0) {
+                        this.cityResult[0] = {
+                            cityName: "No city found"
+                        };
+                        this.cityResultDropdown = true;
+                    } else {
+                        this.cityResultDropdown = true;
+                    }
+                },
+                err => {
+                },
+            )
+        }
+    }
+
+    citySelect(index) {
+        if (this.cityResult[index].cityName != "No city found") {
+            this.collectionForm.controls.cityName.value.push(this.cityResult[index].cityName);
+            this.selectedCity.push(this.cityResult[index]);
+            this.cityResultDropdown = false;
+        }
+
+    }
+
+    removeCity(index) {
+        this.collectionForm.controls.cityId.value.splice(index, 1);
+        this.selectedCity.splice(index, 1);
+    }
+    // city auto select end
+
     ngOnInit() {
         this.get();
         this.collectionForm.controls.searchStore.valueChanges.debounceTime(1000).subscribe(newValue => this.searchStore(newValue));
         this.collectionForm.controls.searchCataloge.valueChanges.debounceTime(1000).subscribe(newValue => this.searchCataloge(newValue));
         this.collectionForm.controls.searchOffer.valueChanges.debounceTime(1000).subscribe(newValue => this.searchOffer(newValue));
+        this.collectionForm.controls.searchCity.valueChanges.debounceTime(1000).subscribe(newValue => this.searchCity(newValue));
     }
 }
