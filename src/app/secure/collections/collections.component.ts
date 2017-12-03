@@ -41,6 +41,7 @@ export class CollectionsComponent implements OnInit {
     selectedCity: any = [];
     cityResultDropdown: any = false;
 
+
     constructor(private _collectionsService: CollectionsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.collectionForm = this.formBuilder.group({
             'collectionName': ['', [Validators.required, , Validators.minLength(2)]],
@@ -53,6 +54,7 @@ export class CollectionsComponent implements OnInit {
             'offerId': [[]],
             'searchOffer': [''],
             'cityName': [[]],
+            'cityId': [[]],
             'searchCity': [''],
             'storeType': [, [Validators.required, ValidationService.imageValidator]],
             'buisnessOffline': [],
@@ -65,6 +67,7 @@ export class CollectionsComponent implements OnInit {
     onFileChange($event) {
         let fileName = $event.target.getAttribute("fileName");
         this.collectionForm.controls[fileName].setValue($event.target.files[0]);
+
     }
 
 
@@ -83,13 +86,6 @@ export class CollectionsComponent implements OnInit {
     }
 
     addOREditCollection() {
-        if (this.collectionForm.controls.storeType.value === 'buisnessOffline') {
-            this.collectionForm.controls.buisnessOffline.setValue(true);
-            this.collectionForm.controls.buisnessOnline.setValue(false);
-        } else if (this.collectionForm.controls.storeType.value === 'buisnessOnline') {
-            this.collectionForm.controls.buisnessOnline.setValue(true);
-            this.collectionForm.controls.buisnessOnline.setValue(false);
-        }
         console.log(this.collectionForm);
         if (this.collectionForm.valid) {
             if (this.modalMode === "Update") {
@@ -99,7 +95,7 @@ export class CollectionsComponent implements OnInit {
                         this.currentModal = null;
                         this.storeResultDropdown = false;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.collectionForm.reset();
+                        this.resetFrom();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
@@ -112,7 +108,7 @@ export class CollectionsComponent implements OnInit {
                         this.currentModal = null;
                         this.storeResultDropdown = false;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.collectionForm.reset();
+                        this.resetFrom();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
@@ -140,7 +136,19 @@ export class CollectionsComponent implements OnInit {
         this.currentModal = null;
         this.storeResultDropdown = false;
         this.renderer.removeClass(document.body, 'modal-active');
+        this.resetFrom();
+    }
+
+    resetFrom() {
         this.collectionForm.reset();
+        this.collectionForm.controls.cityName.setValue([]);
+        this.collectionForm.controls.cityId.setValue([]);
+        this.collectionForm.controls.storeId.setValue([]);
+        this.collectionForm.controls.offerId.setValue([]);
+        this.selectedCity = [];
+        this.selectedOffer = [];
+        this.selectedStore = [];
+        this.selectedCataloge = [];
     }
 
     get() {
@@ -153,10 +161,21 @@ export class CollectionsComponent implements OnInit {
         )
     }
 
+    storeTypeChaned(storeType) {
+        console.log(this);
+        if (storeType === 'buisnessOffline') {
+            this.collectionForm.controls.buisnessOffline.setValue(true);
+            this.collectionForm.controls.buisnessOnline.setValue(false);
+        } else if (storeType === 'buisnessOnline') {
+            this.collectionForm.controls.buisnessOnline.setValue(true);
+            this.collectionForm.controls.buisnessOffline.setValue(false);
+        }
+    }
+
     // store auto select start
-    searchStore(search) {
-        if (search != null) {
-            this._collectionsService.getStore(search).subscribe(
+    searchStore(search, buisnessOnline, buisnessOffline, cityName) {
+        if (search != null && buisnessOffline != null && buisnessOffline != null && cityName != null) {
+            this._collectionsService.getStore(search, buisnessOnline, buisnessOffline, cityName[0]).subscribe(
                 response => {
                     this.storeResult = response['data'];
                     if (this.storeResult.length == 0) {
@@ -190,9 +209,9 @@ export class CollectionsComponent implements OnInit {
     // store auto select end
 
     // cataloge auto select start
-    searchCataloge(search) {
-        if (search != null) {
-            this._collectionsService.getCataloge(search).subscribe(
+    searchCataloge(search, buisnessOnline, buisnessOffline, cityName) {
+        if (search != null && buisnessOffline != null && buisnessOffline != null && cityName != null) {
+            this._collectionsService.getCataloge(search, buisnessOnline, buisnessOffline, cityName[0]).subscribe(
                 response => {
                     this.catalogeResult = response['data'];
                     if (this.catalogeResult.length == 0) {
@@ -227,9 +246,9 @@ export class CollectionsComponent implements OnInit {
     // cataloge auto select end
 
     //offer auto select start
-    searchOffer(search) {
-        if (search != null) {
-            this._collectionsService.getOffer(search).subscribe(
+    searchOffer(search, buisnessOnline, buisnessOffline, cityName) {
+        if (search != null && buisnessOffline != null && buisnessOffline != null && cityName != null) {
+            this._collectionsService.getOffer(search, buisnessOnline, buisnessOffline, cityName).subscribe(
                 response => {
                     this.offerResult = response['data'];
                     if (this.offerResult.length == 0) {
@@ -284,8 +303,10 @@ export class CollectionsComponent implements OnInit {
     }
 
     citySelect(index) {
+        console.log(this.collectionForm.controls.cityName.value);
         if (this.cityResult[index].cityName != "No city found") {
             this.collectionForm.controls.cityName.value.push(this.cityResult[index].cityName);
+            this.collectionForm.controls.cityId.value.push(this.cityResult[index]._id);
             this.selectedCity.push(this.cityResult[index]);
             this.cityResultDropdown = false;
         }
@@ -294,15 +315,17 @@ export class CollectionsComponent implements OnInit {
 
     removeCity(index) {
         this.collectionForm.controls.cityId.value.splice(index, 1);
+        this.collectionForm.controls.cityName.value.splice(index, 1);
         this.selectedCity.splice(index, 1);
     }
     // city auto select end
 
     ngOnInit() {
         this.get();
-        this.collectionForm.controls.searchStore.valueChanges.debounceTime(1000).subscribe(newValue => this.searchStore(newValue));
-        this.collectionForm.controls.searchCataloge.valueChanges.debounceTime(1000).subscribe(newValue => this.searchCataloge(newValue));
-        this.collectionForm.controls.searchOffer.valueChanges.debounceTime(1000).subscribe(newValue => this.searchOffer(newValue));
+        this.collectionForm.controls.storeType.valueChanges.debounceTime(100).subscribe(newValue => this.storeTypeChaned(newValue));
+        this.collectionForm.controls.searchStore.valueChanges.debounceTime(1000).subscribe(newValue => this.searchStore(newValue, this.collectionForm.controls.buisnessOnline.value, this.collectionForm.controls.buisnessOffline.value, this.collectionForm.controls.cityName.value));
+        this.collectionForm.controls.searchCataloge.valueChanges.debounceTime(1000).subscribe(newValue => this.searchCataloge(newValue, this.collectionForm.controls.buisnessOnline.value, this.collectionForm.controls.buisnessOffline.value, this.collectionForm.controls.cityName.value));
+        this.collectionForm.controls.searchOffer.valueChanges.debounceTime(1000).subscribe(newValue => this.searchOffer(newValue, this.collectionForm.controls.buisnessOnline.value, this.collectionForm.controls.buisnessOffline.value, this.collectionForm.controls.cityName.value));
         this.collectionForm.controls.searchCity.valueChanges.debounceTime(1000).subscribe(newValue => this.searchCity(newValue));
     }
 }

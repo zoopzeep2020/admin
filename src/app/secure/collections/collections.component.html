@@ -50,11 +50,6 @@
         <form [formGroup]="collectionForm" class="">
             <div class="heading-error">{{errorMessage}}</div>
             <div class="input">
-                <div class="label">Collection Name:</div>
-                <input formControlName="collectionName" id="collectionName" placeholder="collection name" required/>
-                <control-messages [control]="collectionForm.controls.collectionName"></control-messages>
-            </div>
-            <div class="input">
                 <div class="label">Collection type:</div>
                 <select formControlName="collectionType">
                     <option value="store">store</option>
@@ -70,6 +65,24 @@
                     <option value="buisnessOffline">Offline</option>
                 </select>
                 <control-messages [control]="collectionForm.controls.storeType"></control-messages>
+            </div>
+            <div class="input">
+                <div class="label">Select city:</div>
+                <input formControlName="searchCity" id="searchCity" placeholder="Search city" autocomplete="off" />
+                <ul class="result" [ngClass]="{'active': cityResultDropdown}">
+                    <li *ngFor="let city of cityResult; let i = index" (click)="citySelect(i)">{{city.cityName}}</li>
+                </ul>
+                <ul class="selected">
+                    <li *ngFor="let city of selectedCity; let i = index">
+                        <span>{{city.cityName}}</span>
+                        <span class="remove" (click)="removeCity(i)">X</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="input">
+                <div class="label">Collection Name:</div>
+                <input formControlName="collectionName" id="collectionName" placeholder="collection name" required/>
+                <control-messages [control]="collectionForm.controls.collectionName"></control-messages>
             </div>
             <div class="input">
                 <div class="label">Collection Image:</div>
@@ -117,19 +130,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="input">
-                <div class="label">Select city:</div>
-                <input formControlName="searchCity" id="searchCity" placeholder="Search city" autocomplete="off" />
-                <ul class="result" [ngClass]="{'active': cityResultDropdown}">
-                    <li *ngFor="let city of cityResult; let i = index" (click)="citySelect(i)">{{city.cityName}}</li>
-                </ul>
-                <ul class="selected">
-                    <li *ngFor="let city of selectedCity; let i = index">
-                        <span>{{city.cityName}}</span>
-                        <span class="remove" (click)="removeCity(i)">X</span>
-                    </li>
-                </ul>
-            </div>
+
 
             <div (click)="addOREditCollection()" class="input">
                 {{modalMode}}

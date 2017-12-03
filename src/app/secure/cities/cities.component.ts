@@ -5,68 +5,76 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ValidationService } from './../../validationService.service';
 import * as globals from './../../globals';
-import { keywordsService } from './keywords.service';
+import { citiesService } from './cities.service';
 
 
 @Component({
-    selector: 'app-keywords',
-    templateUrl: './keywords.component.html',
-    styleUrls: ['./keywords.component.scss'],
-    providers: [keywordsService]
+    selector: 'app-cities',
+    templateUrl: './cities.component.html',
+    styleUrls: ['./cities.component.scss'],
+    providers: [citiesService]
 })
-export class KeywordsComponent implements OnInit {
+export class CitiesComponent implements OnInit {
 
-    keywords: any[];
+    cities: any[];
     currentModal: string;
-    keywordForm: any;
+    cityForm: any;
     apiUrl: string = globals.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;
 
-    constructor(private _keywordsService: keywordsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
-        this.keywordForm = this.formBuilder.group({
-            'title': ['', [Validators.required, , Validators.minLength(2)]],
+    constructor(private _citiesService: citiesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+        this.cityForm = this.formBuilder.group({
+            'cityName': ['', [Validators.required, , Validators.minLength(2)]],
+            'cityState': ['', [Validators.required, , Validators.minLength(2)]],
+            'latitude': ['', [Validators.required, , Validators.minLength(2)]],
+            'longitude': ['', [Validators.required, , Validators.minLength(2)]],
+            'location': [],
         });
     }
 
-
     update(index, modal) {
-        this.keywordForm.patchValue(this.keywords[index]);
-        this.updateId = this.keywords[index]._id;
-        this.currentModal = "keywordModal";
+        this.cityForm.patchValue(this.cities[index]);
+        this.cityForm.controls.latitude.patchValue(this.cities[index].location[0]);
+        this.cityForm.controls.longitude.patchValue(this.cities[index].location[1]);
+        this.updateId = this.cities[index]._id;
+        this.currentModal = "cityModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Update";
     }
 
     add(modal) {
-        this.currentModal = "keywordModal";
+        this.currentModal = "cityModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Add";
     }
 
-    addOREditKeyword() {
-        if (this.keywordForm.valid) {
+    addOREditCity() {
+        console.log(this.cityForm);
+        if (this.cityForm.valid) {
+            this.cityForm.controls.location.setValue([this.cityForm.controls.latitude.value, this.cityForm.controls.longitude.value]);
+            console.log(this.cityForm);
             if (this.modalMode === "Update") {
-                this._keywordsService.update(this.updateId, this.keywordForm._value).subscribe(
+                this._citiesService.update(this.updateId, this.cityForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.keywordForm.reset();
+                        this.cityForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
                     },
                 );
             } else {
-                console.log(this.keywordForm);
-                this._keywordsService.add(this.keywordForm._value).subscribe(
+                console.log(this.cityForm);
+                this._citiesService.add(this.cityForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
                         this.renderer.removeClass(document.body, 'modal-active');
-                        this.keywordForm.reset();
+                        this.cityForm.reset();
                     },
                     err => {
                         this.errorMessage = JSON.parse(err._body).message;
@@ -74,12 +82,12 @@ export class KeywordsComponent implements OnInit {
                 );
             }
         } else {
-            ValidationService.validateAllFormFields(this.keywordForm);
+            ValidationService.validateAllFormFields(this.cityForm);
         }
     }
 
     delete(index) {
-        this._keywordsService.delete(this.keywords[index]._id).subscribe(
+        this._citiesService.delete(this.cities[index]._id).subscribe(
             response => {
                 this.get();
             },
@@ -92,14 +100,14 @@ export class KeywordsComponent implements OnInit {
     closeModal() {
         this.currentModal = null;
         this.renderer.removeClass(document.body, 'modal-active');
-        this.keywordForm.reset();
+        this.cityForm.reset();
     }
 
     get() {
-        this._keywordsService.getAll().subscribe(
+        this._citiesService.getAll().subscribe(
             response => {
-                this.keywords = response['data'];
-                console.log(this.keywords);
+                this.cities = response['data'];
+                console.log(this.cities);
             },
             err => {
                 console.log(JSON.parse(err._body));

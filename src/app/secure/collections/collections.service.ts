@@ -24,22 +24,57 @@ export class CollectionsService {
         return this.http.get(globals.apiUrl + 'collections', { headers: headers }).map((res: Response) => res.json())
     }
 
-    getStore(search) {
+    getStore(search, buisnessOnline, buisnessOffline, cityName) {
+        let querystring = '';
+        if (cityName != null) {
+            //  querystring += '&location=' + cityName;
+        }
+        if (buisnessOnline == true) {
+            querystring += '&buisnessOnline=' + buisnessOnline;
+        }
+        if (buisnessOffline == true) {
+            querystring += '&buisnessOffline=' + buisnessOffline;
+        }
+
+        console.log(querystring);
+
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'stores/search?search=' + search, { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(globals.apiUrl + 'stores/search?search=' + search + querystring, { headers: headers }).map((res: Response) => res.json())
     }
 
-    getCataloge(search) {
+    getCataloge(search, buisnessOnline, buisnessOffline, cityName) {
+        let querystring = '';
+        if (cityName != null) {
+            //  querystring += '&location=' + cityName;
+        }
+        if (buisnessOnline == true) {
+            querystring += '&buisnessOnline=' + buisnessOnline;
+        }
+        if (buisnessOffline == true) {
+            querystring += '&buisnessOffline=' + buisnessOffline;
+        }
+
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'catalogs/search?search=' + search, { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(globals.apiUrl + 'catalogs/search?search=' + search + querystring, { headers: headers }).map((res: Response) => res.json())
     }
 
-    getOffer(search) {
+    getOffer(search, buisnessOnline, buisnessOffline, cityName) {
+        let querystring = '';
+        if (cityName != null) {
+            //  querystring += '&location=' + cityName;
+        }
+        if (buisnessOnline == true) {
+            querystring += '&buisnessOnline=' + buisnessOnline;
+        }
+        if (buisnessOffline == true) {
+            querystring += '&buisnessOffline=' + buisnessOffline;
+        }
+
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'offers/search?search=' + search, { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(globals.apiUrl + 'offers/search?search=' + search + querystring, { headers: headers }).map((res: Response) => res.json())
     }
 
     getCity(search) {

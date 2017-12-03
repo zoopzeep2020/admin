@@ -1,15 +1,15 @@
 <div class="table-box">
     <div class="mini-box">
         <div class="text">
-            <h2>Categories</h2>
+            <h2>Cities</h2>
         </div>
-        <span>Categories table</span>
+        <span>Cities Table</span>
     </div>
 </div>
 <div class="table-scroll">
     <div class="table-header clearfix">
         <div class="left">
-            <p>Categrories</p>
+            <p>Cities</p>
         </div>
         <div class="right">
             <button class="add-button" (click)="add()">Add</button>
@@ -18,23 +18,20 @@
     <table>
         <thead>
             <tr>
-                <th>Categories name</th>
-                <th>InActive images </th>
-                <th>Active images</th>
-                <th> </th>
+                <th>City Name</th>
+                <th>City State</th>
+                <th>Latitude</th>
+                <th>Longitude </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let category of categories; let i = index">
-                <td>{{category.category}}</td>
+            <tr *ngFor="let city of cities; let i = index">
+                <td>{{city.cityName}}</td>
+                <td>{{city.cityState}}</td>
+                <td>{{city.location[0]}}</td>
+                <td>{{city.location[1]}}</td>
                 <td>
-                    <img [attr.src]="apiUrl+category.categoryImage" />
-                </td>
-                <td>
-                    <img [attr.src]="apiUrl+category.categoryActiveImage" />
-                </td>
-                <td>
-                    <div class="icon" (click)="update(i, 'categoryModal')">
+                    <div class="icon" (click)="update(i, 'cityModal')">
                         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;"> <g> <g><polygon points="315.982,68.752 294.766,89.969 422.044,217.238 443.257,196.027 "/></g> </g> <g> <g> <path d="M485.677,26.323c-35.098-35.097-92.168-35.098-127.266,0l-21.218,21.218l127.273,127.273l21.211-21.211 C520.775,118.505,520.775,61.42,485.677,26.323z"/> </g> </g> <g> <g> <polygon points="59.011,332.778 34.257,392.886 119.111,477.748 179.227,452.994 "/> </g> </g> <g> <g> <polygon points="273.555,111.18 76.69,308.035 203.97,435.315 400.835,238.451 "/> </g> </g> <g> <g> <path d="M21.882,422.934L2.276,470.545c-4.629,11.235-2.065,24.038,6.504,32.637c8.45,8.45,21.183,11.25,32.666,6.548 l47.618-19.609L21.882,422.934z"/> </g> </g> </svg>
                     </div>
                     <div class="icon" (click)="delete(i)">
@@ -46,31 +43,32 @@
     </table>
 </div>
 
-<div class="modal input-modal active" [ngClass]="{'active': currentModal != categoryModal}">
+<div class="modal input-modal active" [ngClass]="{'active': currentModal != cityModal}">
     <div class="box">
-        <div class="input-heading">{{modalMode}} Categories</div>
-        <form [formGroup]="categoryForm" class="">
+        <div class="input-heading">{{modalMode}} Cities</div>
+        <form [formGroup]="cityForm" class="">
             <div class="heading-error">{{errorMessage}}</div>
             <div class="input">
-                <div class="label">Category Name:</div>
-                <input formControlName="category" id="category" placeholder="category name" required/>
-                <control-messages [control]="categoryForm.controls.category"></control-messages>
+                <div class="label">City Name:</div>
+                <input formControlName="cityName" id="cityName" placeholder="city Name " required/>
+                <control-messages [control]="cityForm.controls.cityName"></control-messages>
             </div>
             <div class="input">
-                <div class="label">Category In-active Image:</div>
-                <input type="file" fileName="categoryImage" (change)="onFileChange($event)" accept="image/*" placeholder="in active image"
-                    id="categoryImage" />
-                <input type="hidden" name="fileHidden" formControlName="categoryImage" />
-                <control-messages [control]="categoryForm.controls.categoryImage"></control-messages>
+                <div class="label">City State:</div>
+                <input formControlName="cityState" id="cityState" placeholder="city State" required/>
+                <control-messages [control]="cityForm.controls.cityState"></control-messages>
             </div>
             <div class="input">
-                <div class="label">Category Active Image:</div>
-                <input type="file" fileName="categoryActiveImage" (change)="onFileChange($event)" accept="image/*" id="categoryActiveImage"
-                    placeholder="active image" />
-                <input type="hidden" name="fileHidden" formControlName="categoryActiveImage" />
-                <control-messages [control]="categoryForm.controls.categoryActiveImage"></control-messages>
+                <div class="label">Latitude:</div>
+                <input type="number" formControlName="latitude" id="latitude" placeholder="Latitude" required/>
+                <control-messages [control]="cityForm.controls.latitude"></control-messages>
             </div>
-            <div (click)="addOREditCategory()" class="input">
+            <div class="input">
+                <div class="label">Longitude:</div>
+                <input type="number" formControlName="longitude" id="longitude" placeholder="Longitude" required/>
+                <control-messages [control]="cityForm.controls.longitude"></control-messages>
+            </div>
+            <div (click)="addOREditCity()" class="input btn">
                 {{modalMode}}
             </div>
         </form>
@@ -78,7 +76,7 @@
     <div class="close" (click)="closeModal()">
         <svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;height: 25px;width: 25px;" version="1.1" viewBox="0 0 512 512"
             width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <path d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"></path>
-        </svg>
+          <path d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"></path>
+      </svg>
     </div>
 </div>
