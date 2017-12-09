@@ -32,6 +32,8 @@ export class BlogsComponent implements OnInit {
             'authorName': ['', [Validators.required, , Validators.minLength(2)]],
             'authorImage': ['', [Validators.required, ValidationService.imageValidator]],
             'description': ['', [Validators.required, Validators.minLength(500)]],
+            'metaDescription': ['', [Validators.required, Validators.minLength(100)]],
+            'metaKeyword': ['', [Validators.required]],
         });
     }
 

@@ -48,6 +48,7 @@ import { AdminKeyComponent } from './secure/admin-key/admin-key.component';
 import { CollectionsComponent } from './secure/collections/collections.component';
 import { StaticPagesComponent } from './secure/static-pages/static-pages.component';
 import { CitiesComponent } from './secure/cities/cities.component';
+import { StoresComponent } from './secure/stores/stores.component';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full', },
@@ -72,7 +73,8 @@ const APP_ROUTES: Routes = [
         AdminKeyComponent,
         CollectionsComponent,
         StaticPagesComponent,
-        CitiesComponent
+        CitiesComponent,
+        StoresComponent
     ],
     imports: [
         BrowserModule,

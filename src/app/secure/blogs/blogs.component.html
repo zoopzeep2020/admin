@@ -70,6 +70,16 @@
                 <control-messages [control]="blogForm.controls.authorImage"></control-messages>
             </div>
             <div class="input">
+                <div class="label">Meta Description</div>
+                <input type="text" formControlName="metaDescription" id="metaDescription" />
+                <control-messages [control]="blogForm.controls.metaDescription"></control-messages>
+            </div>
+            <div class="input">
+                <div class="label">Meta Keyword</div>
+                <input type="text" formControlName="metaKeyword" id="metaKeyword" />
+                <control-messages [control]="blogForm.controls.metaKeyword"></control-messages>
+            </div>
+            <div class="input">
                 <div class="label">Descirption</div>
                 <quill-editor formControlName="description" [options]="editorConfig">
                 </quill-editor>

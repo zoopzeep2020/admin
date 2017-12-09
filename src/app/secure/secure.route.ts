@@ -9,6 +9,7 @@ import { AdminKeyComponent } from './admin-key/admin-key.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { CitiesComponent } from './cities/cities.component';
+import { StoresComponent } from './stores/stores.component';
 
 export const SECURE_ROUTES: Routes = [
     {
@@ -46,6 +47,10 @@ export const SECURE_ROUTES: Routes = [
     {
         path: 'cities',
         component: CitiesComponent
+    },
+    {
+        path: 'stores',
+        component: StoresComponent
     },
 ];
 
