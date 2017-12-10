@@ -25,6 +25,8 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
+        "devapi": "environments/environment.devapi.ts",
+        "webrex": "environments/environment.webrex.ts",
         "prod": "environments/environment.prod.ts"
       }
     }

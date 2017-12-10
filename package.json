@@ -5,6 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "devapi": "ng build --environment=devapi",
+    "webrex": "ng build --environment=webrex",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

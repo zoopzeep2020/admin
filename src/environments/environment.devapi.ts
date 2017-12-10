@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://webrexstudio.com:3001/'
+  apiUrl: 'http://dev.api.zeepzoop.com/'
 };
