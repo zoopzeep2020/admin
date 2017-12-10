@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 import { keywordsService } from './keywords.service';
 
 
@@ -19,7 +19,7 @@ export class KeywordsComponent implements OnInit {
     keywords: any[];
     currentModal: string;
     keywordForm: any;
-    apiUrl: string = globals.apiUrl;
+    apiUrl: string = environment.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 import { BlogsService } from './blogs.service';
 
 
@@ -20,7 +20,7 @@ export class BlogsComponent implements OnInit {
     blog: any[];
     currentModal: any;
     blogForm: any;
-    apiUrl: string = globals.apiUrl;
+    apiUrl: string = environment.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;

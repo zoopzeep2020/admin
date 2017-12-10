@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as myGlobals from '../../globals'; 
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +9,7 @@ import * as myGlobals from '../../globals';
 export class DashboardComponent implements OnInit {
 
   constructor() { }
-  
+
   ngOnInit() {
   }
 

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 import { AdminKeyService } from './admin-key.service';
 
 
@@ -19,7 +19,7 @@ export class AdminKeyComponent implements OnInit {
     adminKey: {};
     currentModal: any;
     adminKeyForm: any;
-    apiUrl: string = globals.apiUrl;
+    apiUrl: string = environment.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;

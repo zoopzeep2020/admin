@@ -8,7 +8,7 @@ import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/fromEvent';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 import { CollectionsService } from './collections.service';
 
 
@@ -24,7 +24,7 @@ export class CollectionsComponent implements OnInit {
     collection: any[];
     currentModal: any;
     collectionForm: any;
-    apiUrl: string = globals.apiUrl;
+    apiUrl: string = environment.apiUrl;
     modalMode: string = "Add";
     errorMessage: string;
     updateId: String;

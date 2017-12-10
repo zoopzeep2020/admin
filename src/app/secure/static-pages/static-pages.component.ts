@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 import { StaticPagesService } from './static-pages.service';
 
 
@@ -20,7 +20,7 @@ export class StaticPagesComponent implements OnInit {
   staticPage: any[];
   currentModal: any;
   staticPageForm: any;
-  apiUrl: string = globals.apiUrl;
+  apiUrl: string = environment.apiUrl;
   modalMode: string = "Add";
   errorMessage: string;
   updateId: String;
