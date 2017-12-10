@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class BlogsService {
@@ -20,7 +20,7 @@ export class BlogsService {
     getAll() {
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'blogs/withoutlogin', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'blogs/withoutlogin', { headers: headers }).map((res: Response) => res.json())
     }
 
     add(data) {
@@ -31,7 +31,7 @@ export class BlogsService {
             formData.append(prop, data[prop]);
         }
         console.log(formData);
-        return this.http.post(globals.apiUrl + 'blogs', formData, { headers: headers }).map((res: Response) => res.json())
+        return this.http.post(environment.apiUrl + 'blogs', formData, { headers: headers }).map((res: Response) => res.json())
     }
 
     update(id, data) {
@@ -42,12 +42,12 @@ export class BlogsService {
             formData.append(prop, data[prop]);
         }
         console.log(formData);
-        return this.http.put(globals.apiUrl + 'blogs/' + id, formData, { headers: headers }).map((res: Response) => res.json())
+        return this.http.put(environment.apiUrl + 'blogs/' + id, formData, { headers: headers }).map((res: Response) => res.json())
     }
 
     delete(id) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.delete(globals.apiUrl + 'blogs/' + id, { headers: headers }).map((res: Response) => res.json())
+        return this.http.delete(environment.apiUrl + 'blogs/' + id, { headers: headers }).map((res: Response) => res.json())
     }
 }

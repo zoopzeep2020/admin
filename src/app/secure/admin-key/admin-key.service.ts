@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class AdminKeyService {
@@ -16,7 +16,7 @@ export class AdminKeyService {
     getAll() {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'users/admin/adminKey', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'users/admin/adminKey', { headers: headers }).map((res: Response) => res.json())
     }
 
 }

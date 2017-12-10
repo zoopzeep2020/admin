@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class CategoriesService {
@@ -20,7 +20,7 @@ export class CategoriesService {
     getAll() {
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'categories', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'categories', { headers: headers }).map((res: Response) => res.json())
     }
 
     add(data) {
@@ -31,7 +31,7 @@ export class CategoriesService {
             formData.append(prop, data[prop]);
         }
         console.log(formData);
-        return this.http.post(globals.apiUrl + 'categories', formData, { headers: headers }).map((res: Response) => res.json())
+        return this.http.post(environment.apiUrl + 'categories', formData, { headers: headers }).map((res: Response) => res.json())
     }
 
     update(id, data) {
@@ -42,12 +42,12 @@ export class CategoriesService {
             formData.append(prop, data[prop]);
         }
         console.log(formData);
-        return this.http.put(globals.apiUrl + 'categories/' + id, formData, { headers: headers }).map((res: Response) => res.json())
+        return this.http.put(environment.apiUrl + 'categories/' + id, formData, { headers: headers }).map((res: Response) => res.json())
     }
 
     delete(id) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.delete(globals.apiUrl + 'categories/' + id, { headers: headers }).map((res: Response) => res.json())
+        return this.http.delete(environment.apiUrl + 'categories/' + id, { headers: headers }).map((res: Response) => res.json())
     }
 }

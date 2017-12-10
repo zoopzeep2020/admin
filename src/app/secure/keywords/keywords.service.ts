@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class keywordsService {
@@ -20,24 +20,24 @@ export class keywordsService {
     getAll() {
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'keywords', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'keywords', { headers: headers }).map((res: Response) => res.json())
     }
 
     add(data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.post(globals.apiUrl + 'keywords', data, { headers: headers }).map((res: Response) => res.json())
+        return this.http.post(environment.apiUrl + 'keywords', data, { headers: headers }).map((res: Response) => res.json())
     }
 
     update(id, data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.put(globals.apiUrl + 'keywords/' + id, data, { headers: headers }).map((res: Response) => res.json())
+        return this.http.put(environment.apiUrl + 'keywords/' + id, data, { headers: headers }).map((res: Response) => res.json())
     }
 
     delete(id) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.delete(globals.apiUrl + 'keywords/' + id, { headers: headers }).map((res: Response) => res.json())
+        return this.http.delete(environment.apiUrl + 'keywords/' + id, { headers: headers }).map((res: Response) => res.json())
     }
 }

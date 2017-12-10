@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as globals from './../../globals';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class citiesService {
@@ -20,24 +20,24 @@ export class citiesService {
     getAll() {
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'cities', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'cities', { headers: headers }).map((res: Response) => res.json())
     }
 
     add(data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.post(globals.apiUrl + 'cities', data, { headers: headers }).map((res: Response) => res.json())
+        return this.http.post(environment.apiUrl + 'cities', data, { headers: headers }).map((res: Response) => res.json())
     }
 
     update(id, data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.put(globals.apiUrl + 'cities/' + id, data, { headers: headers }).map((res: Response) => res.json())
+        return this.http.put(environment.apiUrl + 'cities/' + id, data, { headers: headers }).map((res: Response) => res.json())
     }
 
     delete(id) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.delete(globals.apiUrl + 'cities/' + id, { headers: headers }).map((res: Response) => res.json())
+        return this.http.delete(environment.apiUrl + 'cities/' + id, { headers: headers }).map((res: Response) => res.json())
     }
 }
