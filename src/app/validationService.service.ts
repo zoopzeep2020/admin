@@ -11,7 +11,7 @@ export class ValidationService {
         let config = {
             'required': `Required`,
             'invalidCreditCard': 'Is invalid credit card number',
-            'invalidEmailAddress': 'Invalid email address sads sdsds',
+            'invalidEmailAddress': 'Invalid email address ',
             'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
             'minlength': `Minimum length ${validatorValue.requiredLength}`,
             'invalidImage': "Image is not valid"
