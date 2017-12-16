@@ -160,16 +160,19 @@ ul.result{
     }
 }
 ul.selected{
-    margin: 10px 0px;
+    margin: 10px 0px 5px;
     li{
         padding: 5px 10px;
         display: inline-block;
-        background: white;
         border: 1px solid $brand_color;
-        color: $brand_color;
-        margin: 0px 10px;
+        background: $brand_color;
+        color: #fff;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        border-radius: 3px;
+        font-size: 15px;
         .remove{
-            color:  gray;
+            color:#fff;
             margin-left: 5px;
             &:hover{
                 cursor: pointer;
@@ -202,59 +205,6 @@ ul.selected{
             font-family: inherit;
         }
     }
-}
-.modal{
-    position: fixed;
-    top: 0px;
-    left: 0px;          
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    z-index: -1;
-    padding: 15px;
-    transition: z-index 0s ease 0.5s, all 0.5s ease 0s;
-    overflow: auto;
-    &.active{
-        opacity: 1;
-        z-index: 9999;
-        display: block;
-        transition: all 0.5s ease 0s;
-    }
-    .close{
-        height: 25px;
-        width: 25px;
-        position: absolute;
-        right:25px;
-        top:25px;
-        svg{
-            path{
-                fill:#fff;
-            }
-        }
-        &:hover{
-            cursor: pointer;
-            svg{
-                path{
-                    fill:$brand_color;
-                }
-            }
-        }
-        svg{
-            height: 25px;
-            width: 25px;
-        }
-    }
-    .box{
-        background: white;
-        max-width: 700px;
-        margin: 0px auto;
-        padding: 10px;
-        width: 100%;
-
-    }
-    
 }
 
 /*blog view*/
@@ -850,7 +800,20 @@ button{
         color:#fff;
     }
 }
+
 .zeepzoop{
+    .btn{
+        background: #e4e4e4;
+        border: 1px solid #fff;
+        padding: 8px 20px;
+        color: #888888;
+        border-radius: 5px;
+        &:hover{
+            background: $brand_color;
+            cursor: pointer;
+            color:#fff;
+        }
+    }
     .top-nav-bar{    
         background-color: $brand_color;
         height: 50px;
@@ -1070,6 +1033,13 @@ button{
             }
         }
     }
+    .page-heading{
+        font-size: 24px;
+        padding: 20px 15px;
+        background: #ececec;
+        line-height: 30px;
+        font-weight: bold;
+    }
     .table-box {
         width: 100%;
         background-color: #eef3f7;
@@ -1100,7 +1070,6 @@ button{
         width: 100%;
         border: 1px solid #d9d9d9;
         box-shadow: 0px -3px 0px 0px #cfdbe2;
-        /* margin: 20px auto; */
         border-radius: 3px;
         background-color: white;
         max-width: 1000px;
@@ -1149,12 +1118,15 @@ button{
                         color: #888888;
                         font-family: sans-serif;
                         vertical-align: middle;
+                        &:last-of-type{
+                            text-align: center;
+                        }
                         img{
                             max-width: 100px;
                         }
                         .icon {
-                            height: 20px;
-                            width: 20px;
+                            height: 24px;
+                            width: 24px;
                             display: inline-block;
                             margin-left: 5px;
                             vertical-align: middle;
@@ -1165,8 +1137,8 @@ button{
                                 }
                             }
                             svg {
-                                height: 20px;
-                                width: 20px;
+                                height: 24px;
+                                width: 24px;
                                 fill: currentColor;
                             }
                         }
@@ -1182,12 +1154,22 @@ button{
                 box-shadow: 0px 1px 10px -3px rgba(0,0,0,0.75);
                 border: 1px solid #f6827b;
                 background: #ff8076;
-                margin: 10px 0;
+                margin: 10px 15px;
                 &.is-active{
                     background: #6dbd75;
                     border: 1px solid #6dbd75;
                 }
                 &.is-not-active{
+                }
+            }
+        }
+        &.categories-table{
+            tr{
+                td{
+                    img{
+                        max-height: 50px;
+                        max-width: 50px;
+                    }
                 }
             }
         }
@@ -1229,7 +1211,7 @@ button{
         .input{
             width: 100%;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             input{
                 width: 100%;
                 height: 40px;
@@ -1373,7 +1355,8 @@ button{
     }
     .controlMessage>div{
         color: red;
-        margin: 5px 5px -15px;
+        margin: 5px;
+        font-size: 12px;
     }
     .heading-error{
         color: red;
@@ -1398,5 +1381,168 @@ button{
             right: 0;
             top: 0;
         }
-    } 
+    }
+    .modal{
+        position: fixed;
+        top: 0px;
+        left: 0px;          
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: -1;
+        padding: 15px;
+        padding-top: 50px;
+        transition: z-index 0s ease 0.5s, all 0.5s ease 0s;
+        overflow: auto;
+        &.active{
+            opacity: 1;
+            z-index: 9999;
+            display: block;
+            transition: all 0.5s ease 0s;
+        }
+        .close{
+            height: 25px;
+            width: 25px;
+            position: absolute;
+            right:25px;
+            top:25px;
+            svg{
+                path{
+                    fill:#fff;
+                }
+            }
+            &:hover{
+                cursor: pointer;
+                svg{
+                    path{
+                        fill:$brand_color;
+                    }
+                }
+            }
+            svg{
+                height: 25px;
+                width: 25px;
+            }
+        }
+        .box{
+            background: white;
+            max-width: 700px;
+            margin: 0px auto;
+            width: 100%;
+        }
+        .box-heading{
+            font-size: 20px;
+            line-height: 32px;
+            padding: 15px 25px 10px;
+            background: #eef3f7;
+            border-bottom: 2px solid #a1bed5a6;
+        }
+        .form{
+            padding: 20px;
+            background: #eef3f769;
+            .input{
+                .label{
+                    margin-bottom: 5px;
+                    font-size: 16px;
+                    line-height: 20px;
+                } 
+                select{
+                    padding: 7px 10px;
+                    border-radius: 3px;
+                    border: 1px solid #ccc;
+                    width: 100%;
+                    font-size: 16px;
+                }
+            }
+            input{
+                padding: 0 15px;
+                border-radius: 3px;
+                font-size: 15px;
+            }
+            input[type=file]{
+                border:none;
+            }
+            .fileContainer {
+                overflow: hidden;
+                position: relative;
+            }
+            .fileContainer [type=file] {
+                cursor: inherit;
+                display: block;
+                text-align: center;
+                font-size: 999px;
+                filter: alpha(opacity=0);
+                min-height: 100%;
+                min-width: 100%;
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                text-align: right;
+                top: 0;
+                height: auto;
+            }
+            .fileContainer{
+                background: #e7e9ea;
+                display: inline-block;
+                width: 130px;
+                padding: 7px 10px;
+                border-radius: 3px;
+                -webkit-box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
+                -moz-box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
+                box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
+                .icon{
+                    height: 24px;
+                    width: 24px;
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: middle;
+                    svg{
+                        height: 24px;
+                        width:24px;
+                        margin: 0;
+                        margin-top: -1px;
+                    }
+                }
+                span{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+            .image-container{
+                height: 150px;
+                width: 150px;
+                display: inline-block;
+                vertical-align: top;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                overflow: hidden;
+                padding: 3px;
+                background: #f8f8f8;
+                img{
+                    height: 100%;
+                    object-fit: cover;
+                    width: 100%;
+                }
+            }
+            .btn{
+                display: inline-block;
+                margin: 20px 0;
+                text-align: center;
+                padding: 10px 20px;
+                background: #e7e9ea;
+                color: #000;
+                border-radius: 3px;
+                font-size: 16px;
+                border: 1px solid #e7e9ea;
+                &:hover{
+                    background: $brand_color;
+                    cursor: pointer;
+                    color:#fff;
+                }
+            }
+        }
+    }
+     
 }

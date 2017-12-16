@@ -59,20 +59,29 @@ export class CollectionsComponent implements OnInit {
             'storeType': [, [Validators.required, ValidationService.imageValidator]],
             'buisnessOffline': [],
             'buisnessOnline': []
-
         });
     }
+        onFileChange($event) {
 
+            let fileName = $event.target.getAttribute("fileName");
+            this.collectionForm.controls[fileName].setValue($event.target.files[0]);
 
-    onFileChange($event) {
-        let fileName = $event.target.getAttribute("fileName");
-        this.collectionForm.controls[fileName].setValue($event.target.files[0]);
-
-    }
-
+            const preview = <HTMLImageElement>document.getElementById('collectionImage');
+            const reader = new FileReader();
+            reader.onloadend = function () {
+            preview.src = reader.result;
+            }
+            if ($event.target.files[0]) {
+                reader.readAsDataURL($event.target.files[0]);
+            } else {
+                preview.src = "";
+            }
+        }
 
     update(index, modal) {
+       // let imagePath = environment.apiUrl + this.collections[index].collectionPicture;
         this.collectionForm.patchValue(this.collections[index]);
+        console.log(this.collections[index]);
         this.updateId = this.collections[index]._id;
         this.currentModal = "collectionModal";
         this.renderer.addClass(document.body, 'modal-active');
