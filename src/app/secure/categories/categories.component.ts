@@ -6,13 +6,14 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { CategoriesService } from './categories.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
     selector: 'app-categories',
     templateUrl: './categories.component.html',
     styleUrls: ['./categories.component.scss'],
-    providers: [CategoriesService]
+    providers: [CategoriesService, SecureService]
 })
 export class CategoriesComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class CategoriesComponent implements OnInit {
     errorMessage: string;
     updateId: String;
 
-    constructor(private _categoriesService: CategoriesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _categoriesService: CategoriesService, private _secureService : SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.categoryForm = this.formBuilder.group({
             'category': ['', [Validators.required, , Validators.minLength(2)]],
             'categoryImage': ['', [Validators.required, ValidationService.imageValidator]],
@@ -33,9 +34,21 @@ export class CategoriesComponent implements OnInit {
         });
     }
 
-    onFileChange($event) {
+    onFileChange($event,imageName) {
         let fileName = $event.target.getAttribute("fileName");
         this.categoryForm.controls[fileName].setValue($event.target.files[0]);
+        
+        
+        const preview = <HTMLImageElement>document.getElementById(imageName);
+        const reader = new FileReader();
+        reader.onloadend = function () {
+        preview.src = reader.result;
+        }
+        if ($event.target.files[0]) {
+            reader.readAsDataURL($event.target.files[0]);
+        } else {
+            preview.src = "";
+        }
     }
 
     update(index, modal) {
@@ -67,7 +80,7 @@ export class CategoriesComponent implements OnInit {
                     },
                 );
             } else {
-                this._categoriesService.add(this.categoryForm._value).subscribe(
+                this._secureService.add('categories', this.categoryForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
@@ -103,7 +116,7 @@ export class CategoriesComponent implements OnInit {
     }
 
     get() {
-        this._categoriesService.getAll().subscribe(
+        this._secureService.getAll('categories').subscribe(
             response => {
                 this.categories = response['data'];
             },

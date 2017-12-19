@@ -17,11 +17,11 @@ export class storesService {
 
     constructor(private http: Http) { }
 
-    getAll() {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.get(globals.apiUrl + 'stores', { headers: headers }).map((res: Response) => res.json())
-    }
+    // getAll() {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     return this.http.get(globals.apiUrl + 'stores', { headers: headers }).map((res: Response) => res.json())
+    // }
 
     add(data) {
         let headers = new Headers();

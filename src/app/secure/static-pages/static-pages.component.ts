@@ -6,13 +6,14 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { StaticPagesService } from './static-pages.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
   selector: 'app-staticPages',
   templateUrl: './static-pages.component.html',
   styleUrls: ['./static-pages.component.scss'],
-  providers: [StaticPagesService]
+  providers: [StaticPagesService, SecureService]
 })
 export class StaticPagesComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class StaticPagesComponent implements OnInit {
   errorMessage: string;
   updateId: String;
 
-  constructor(private _staticPagesService: StaticPagesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+  constructor(private _staticPagesService: StaticPagesService, private _secureService: SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
     this.staticPageForm = this.formBuilder.group({
       'title': ['', [Validators.required, , Validators.minLength(2)]],
       'content': ['', [Validators.required, ValidationService.imageValidator]],
@@ -99,7 +100,7 @@ export class StaticPagesComponent implements OnInit {
   }
 
   get() {
-    this._staticPagesService.getAll().subscribe(
+    this._secureService.getAll('staticPages/').subscribe(
       response => {
         this.staticPages = response['data'];
         console.log(this.staticPages);

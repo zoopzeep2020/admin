@@ -6,13 +6,14 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { citiesService } from './cities.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
     selector: 'app-cities',
     templateUrl: './cities.component.html',
     styleUrls: ['./cities.component.scss'],
-    providers: [citiesService]
+    providers: [citiesService, SecureService]
 })
 export class CitiesComponent implements OnInit {
 
@@ -24,7 +25,7 @@ export class CitiesComponent implements OnInit {
     errorMessage: string;
     updateId: String;
 
-    constructor(private _citiesService: citiesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _citiesService: citiesService, private _secureService : SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.cityForm = this.formBuilder.group({
             'cityName': ['', [Validators.required, , Validators.minLength(2)]],
             'cityState': ['', [Validators.required, , Validators.minLength(2)]],
@@ -69,7 +70,7 @@ export class CitiesComponent implements OnInit {
                 );
             } else {
                 console.log(this.cityForm);
-                this._citiesService.add(this.cityForm._value).subscribe(
+                this._secureService.add('cities',this.cityForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
@@ -87,6 +88,7 @@ export class CitiesComponent implements OnInit {
     }
 
     delete(index) {
+        console.log(this.cities[index]._id);
         this._citiesService.delete(this.cities[index]._id).subscribe(
             response => {
                 this.get();
@@ -104,7 +106,7 @@ export class CitiesComponent implements OnInit {
     }
 
     get() {
-        this._citiesService.getAll().subscribe(
+        this._secureService.getAll('cities').subscribe(
             response => {
                 this.cities = response['data'];
                 console.log(this.cities);

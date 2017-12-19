@@ -6,13 +6,14 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { keywordsService } from './keywords.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
     selector: 'app-keywords',
     templateUrl: './keywords.component.html',
     styleUrls: ['./keywords.component.scss'],
-    providers: [keywordsService]
+    providers: [keywordsService, SecureService]
 })
 export class KeywordsComponent implements OnInit {
 
@@ -24,7 +25,7 @@ export class KeywordsComponent implements OnInit {
     errorMessage: string;
     updateId: String;
 
-    constructor(private _keywordsService: keywordsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _keywordsService : keywordsService, private _secureService : SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.keywordForm = this.formBuilder.group({
             'title': ['', [Validators.required, , Validators.minLength(2)]],
         });
@@ -61,7 +62,7 @@ export class KeywordsComponent implements OnInit {
                 );
             } else {
                 console.log(this.keywordForm);
-                this._keywordsService.add(this.keywordForm._value).subscribe(
+                this._secureService.add('keywords', this.keywordForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
@@ -96,7 +97,7 @@ export class KeywordsComponent implements OnInit {
     }
 
     get() {
-        this._keywordsService.getAll().subscribe(
+        this._secureService.getAll('keywords').subscribe(
             response => {
                 this.keywords = response['data'];
                 console.log(this.keywords);

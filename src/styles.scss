@@ -1485,13 +1485,13 @@ button{
             }
             .fileContainer{
                 background: #e7e9ea;
-                display: inline-block;
+                display: flex;
                 width: 130px;
-                padding: 7px 10px;
+                height: 130px;
                 border-radius: 3px;
-                -webkit-box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
-                -moz-box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
-                box-shadow: inset 0px 0px 30px -15px rgb(188, 207, 224);
+                box-shadow: inset 0px 0px 30px -15px #bccfe0;
+                border-radius: 100%;
+                overflow: hidden;
                 .icon{
                     height: 24px;
                     width: 24px;
@@ -1505,25 +1505,38 @@ button{
                         margin-top: -1px;
                     }
                 }
-                span{
-                    display: inline-block;
-                    vertical-align: middle;
-                }
-            }
-            .image-container{
-                height: 150px;
-                width: 150px;
-                display: inline-block;
-                vertical-align: top;
-                border: 1px solid #ccc;
-                border-radius: 3px;
-                overflow: hidden;
-                padding: 3px;
-                background: #f8f8f8;
                 img{
                     height: 100%;
                     object-fit: cover;
                     width: 100%;
+                }
+                span{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .file-overlay{
+                    position: absolute;
+                    border: none;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    background: rgba(0, 0, 0, 0.78);
+                    justify-content: center;
+                    align-items: center;
+                    display: none;
+                    svg{
+                        height: 50px;
+                        width: 50px;
+                        margin: 0;
+                        margin-top: -1px;
+                        fill:#bccfe0;
+                    }
+                }
+                &:hover{
+                    .file-overlay{
+                        display: flex;
+                    }
                 }
             }
             .btn{
@@ -1544,5 +1557,16 @@ button{
             }
         }
     }
-     
+    .categories-modal{
+        .fileContainer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                height: 80px !important;
+                width: 80px !important;
+                object-fit: contain !important;
+            }
+        }
+    }
 }

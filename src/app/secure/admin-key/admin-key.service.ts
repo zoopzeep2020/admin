@@ -13,10 +13,10 @@ export class AdminKeyService {
 
     constructor(private http: Http) { }
 
-    getAll() {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.get(environment.apiUrl + 'users/admin/adminKey', { headers: headers }).map((res: Response) => res.json())
-    }
+    // getAll() {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     return this.http.get(environment.apiUrl + 'users/admin/adminKey', { headers: headers }).map((res: Response) => res.json())
+    // }
 
 }

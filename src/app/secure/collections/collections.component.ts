@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 ,Injectable} from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -10,13 +10,14 @@ import 'rxjs/add/observable/fromEvent';
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { CollectionsService } from './collections.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
     selector: 'app-collections',
     templateUrl: './collections.component.html',
     styleUrls: ['./collections.component.scss'],
-    providers: [CollectionsService]
+    providers: [CollectionsService, SecureService]
 })
 export class CollectionsComponent implements OnInit {
 
@@ -42,7 +43,7 @@ export class CollectionsComponent implements OnInit {
     cityResultDropdown: any = false;
 
 
-    constructor(private _collectionsService: CollectionsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _collectionsService: CollectionsService, private _secureService: SecureService, private formBuilder: FormBuilder, private renderer: Renderer2,private http: Http) {
         this.collectionForm = this.formBuilder.group({
             'collectionName': ['', [Validators.required, , Validators.minLength(2)]],
             'collectionType': [, [Validators.required, ValidationService.imageValidator]],
@@ -61,31 +62,40 @@ export class CollectionsComponent implements OnInit {
             'buisnessOnline': []
         });
     }
-        onFileChange($event) {
-
-            let fileName = $event.target.getAttribute("fileName");
-            this.collectionForm.controls[fileName].setValue($event.target.files[0]);
-
-            const preview = <HTMLImageElement>document.getElementById('collectionImage');
-            const reader = new FileReader();
-            reader.onloadend = function () {
-            preview.src = reader.result;
-            }
-            if ($event.target.files[0]) {
-                reader.readAsDataURL($event.target.files[0]);
-            } else {
-                preview.src = "";
-            }
-        }
-
+    basicAuthorizationHeader(headers: Headers) {
+        headers.append('Authorization', 'maximumvsminimumsecurity');
+    }
+    onFileChange($event,imageId) {
+        this._secureService.changePreview($event,imageId);
+        let fileName = $event.target.getAttribute("fileName");
+        this.collectionForm.controls[fileName].setValue($event.target.files[0]);
+    }
     update(index, modal) {
-       // let imagePath = environment.apiUrl + this.collections[index].collectionPicture;
-        this.collectionForm.patchValue(this.collections[index]);
-        console.log(this.collections[index]);
         this.updateId = this.collections[index]._id;
         this.currentModal = "collectionModal";
         this.renderer.addClass(document.body, 'modal-active');
         this.modalMode = "Update";
+        this._collectionsService.getSingleCollection(this.updateId).subscribe(
+            response => {
+                if( response.data.buisnessOnline ){
+                    this.collectionForm.controls.storeType.setValue('buisnessOnline');
+                }else if( response.data.buisnessOffline ){
+                    this.collectionForm.controls.storeType.setValue('buisnessOffline');
+                }
+                this.selectedCity = [];
+                for ( let i=0; i< response.data.cityName.length; i++){
+                    this.selectedCity.push({cityName:response.data.cityName[i]});
+                }
+                this.selectedStore = [];
+                for ( let i=0; i< response.data.storesInfo.length; i++){
+                    this.selectedStore.push({storeName:response.data.storesInfo[i].storeName});
+                }
+                this.collectionForm.patchValue(response.data);
+            },
+            err => {
+            },
+        )
+        
     }
 
     add(modal) {
@@ -95,7 +105,6 @@ export class CollectionsComponent implements OnInit {
     }
 
     addOREditCollection() {
-        console.log(this.collectionForm);
         if (this.collectionForm.valid) {
             if (this.modalMode === "Update") {
                 this._collectionsService.update(this.updateId, this.collectionForm._value).subscribe(
@@ -111,7 +120,7 @@ export class CollectionsComponent implements OnInit {
                     },
                 );
             } else {
-                this._collectionsService.add(this.collectionForm._value).subscribe(
+                this._secureService.add('collections' , this.collectionForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;
@@ -126,10 +135,8 @@ export class CollectionsComponent implements OnInit {
             }
         } else {
             ValidationService.validateAllFormFields(this.collectionForm);
-            console.log(this.collectionForm);
         }
     }
-
     delete(index) {
         this._collectionsService.delete(this.collections[index]._id).subscribe(
             response => {
@@ -161,17 +168,17 @@ export class CollectionsComponent implements OnInit {
     }
 
     get() {
-        this._collectionsService.getAll().subscribe(
+        this._secureService.getAll('collections').subscribe(
             response => {
                 this.collections = response['data'];
             },
             err => {
             },
         )
+        
     }
 
     storeTypeChaned(storeType) {
-        console.log(this);
         if (storeType === 'buisnessOffline') {
             this.collectionForm.controls.buisnessOffline.setValue(true);
             this.collectionForm.controls.buisnessOnline.setValue(false);
@@ -193,6 +200,7 @@ export class CollectionsComponent implements OnInit {
                         };
                         this.storeResultDropdown = true;
                     } else {
+                        this.storeResult = this.removeSelectedResult(this.storeResult, this.selectedStore, 'storeName');
                         this.storeResultDropdown = true;
                     }
                 },
@@ -239,7 +247,6 @@ export class CollectionsComponent implements OnInit {
     }
 
     catalogeSelect(index) {
-        console.log(index);
         if (this.catalogeResult[index].catalogeName != "No cataloge found") {
             this.collectionForm.controls.catalogId.value.push(this.catalogeResult[index]._id);
             this.selectedCataloge.push(this.catalogeResult[index]);
@@ -256,7 +263,7 @@ export class CollectionsComponent implements OnInit {
 
     //offer auto select start
     searchOffer(search, buisnessOnline, buisnessOffline, cityName) {
-        if (search != null && buisnessOffline != null && buisnessOffline != null && cityName != null) {
+        if (search != "" && buisnessOffline != null && buisnessOffline != null && cityName != null) {
             this._collectionsService.getOffer(search, buisnessOnline, buisnessOffline, cityName).subscribe(
                 response => {
                     this.offerResult = response['data'];
@@ -266,12 +273,15 @@ export class CollectionsComponent implements OnInit {
                         };
                         this.offerResultDropdown = true;
                     } else {
+                        this.offerResult = this.removeSelectedResult(this.offerResult, this.selectedOffer, 'offerName');
                         this.offerResultDropdown = true;
                     }
                 },
                 err => {
                 },
             )
+        }else{
+            this.offerResultDropdown=false;
         }
     }
 
@@ -292,27 +302,41 @@ export class CollectionsComponent implements OnInit {
 
     //city auto select start
     searchCity(search) {
-        if (search != null) {
+        if (search != "") {
             this._collectionsService.getCity(search).subscribe(
                 response => {
                     this.cityResult = response['data'];
+                    
                     if (this.cityResult.length == 0) {
                         this.cityResult[0] = {
                             cityName: "No city found"
                         };
                         this.cityResultDropdown = true;
                     } else {
+                        this.cityResult = this.removeSelectedResult(this.cityResult, this.selectedCity, 'cityName');
                         this.cityResultDropdown = true;
                     }
                 },
                 err => {
                 },
             )
+        }else{
+            this.cityResultDropdown=false;
         }
     }
 
+    removeSelectedResult(result, selectedResult, parameterName){
+        for (let i = 0; i < selectedResult.length; i++){
+            for(let j = 0 ; j < result.length; j++){
+                if(result[j][parameterName] == selectedResult[i][parameterName]){
+                    result.splice(j, 1);
+                }
+            }
+        }
+        return result;
+    }
+
     citySelect(index) {
-        console.log(this.collectionForm.controls.cityName.value);
         if (this.cityResult[index].cityName != "No city found") {
             this.collectionForm.controls.cityName.value.push(this.cityResult[index].cityName);
             this.collectionForm.controls.cityId.value.push(this.cityResult[index]._id);
@@ -330,6 +354,12 @@ export class CollectionsComponent implements OnInit {
     // city auto select end
 
     ngOnInit() {
+        document.getElementsByTagName('body')[0].addEventListener('click', ()=>{
+            this.catalogeResultDropdown = false;
+            this.cityResultDropdown = false;
+            this.storeResultDropdown = false;
+            this.offerResultDropdown = false;
+        })
         this.get();
         this.collectionForm.controls.storeType.valueChanges.debounceTime(100).subscribe(newValue => this.storeTypeChaned(newValue));
         this.collectionForm.controls.searchStore.valueChanges.debounceTime(1000).subscribe(newValue => this.searchStore(newValue, this.collectionForm.controls.buisnessOnline.value, this.collectionForm.controls.buisnessOffline.value, this.collectionForm.controls.cityName.value));

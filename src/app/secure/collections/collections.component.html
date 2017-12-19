@@ -49,7 +49,6 @@
                 <select formControlName="collectionType">
                     <option value="store">store</option>
                     <option value="offer">offer</option>
-                    <option value="cataloge">cataloge</option>
                 </select>
                 <control-messages [control]="collectionForm.controls.collectionType" class="controlMessage"></control-messages>
             </div>
@@ -82,16 +81,13 @@
             <div class="input">
                 <div class="label">Collection Image:</div>
                 <div class="fileContainer">
-                    <div class="icon">
+                    <div class="icon file-overlay">
                         <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M38 26h-12v12h-4v-12h-12v-4h12v-12h4v12h12v4z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
                     </div>
-                    <span>Add Image</span>
-                    <input type="file" fileName="collectionPicture" (change)="onFileChange($event)" accept="image/*" placeholder="Collection Image"
+                    <input type="file" fileName="collectionPicture" (change)="onFileChange($event,'collectionImage')" accept="image/*" placeholder="Collection Image"
                         id="collectionPicture" />
+                    <img id="collectionImage" [attr.src]="modalMode == 'Update'?  apiUrl+collectionForm.controls.collectionPicture.value : '../../../assets/images/default.png'" />
                 </div>
-                <div class="image-container">+
-                    <img id="collectionImage" [attr.src]="modalMode == 'Update'?  apiUrl+collectionForm.controls.collectionPicture.value : 'dfdf'" />
-                </div>      
                 <input type="hidden" name="fileHidden" formControlName="collectionPicture" />
                 <control-messages [control]="collectionForm.controls.collectionPicture" class="controlMess age"></control-messages>
             </div>
@@ -121,7 +117,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'offer'">
+            <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'offer'" (blur)="onSearchOfferBlur()">
                 <div class="label">Select offer:</div>
                 <input formControlName="searchOffer" id="searchOffer" placeholder="Search offer" autocomplete="off" />
                 <ul class="result" [ngClass]="{'active': offerResultDropdown}">

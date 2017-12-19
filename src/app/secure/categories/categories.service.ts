@@ -17,22 +17,22 @@ export class CategoriesService {
 
     constructor(private http: Http) { }
 
-    getAll() {
-        let headers = new Headers();
-        this.basicAuthorizationHeader(headers);
-        return this.http.get(environment.apiUrl + 'categories', { headers: headers }).map((res: Response) => res.json())
-    }
+    // getAll() {
+    //     let headers = new Headers();
+    //     this.basicAuthorizationHeader(headers);
+    //     return this.http.get(environment.apiUrl + 'categories', { headers: headers }).map((res: Response) => res.json())
+    // }
 
-    add(data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        const formData = new FormData();
-        for (var prop in data) {
-            formData.append(prop, data[prop]);
-        }
-        console.log(formData);
-        return this.http.post(environment.apiUrl + 'categories', formData, { headers: headers }).map((res: Response) => res.json())
-    }
+    // add(data) {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     const formData = new FormData();
+    //     for (var prop in data) {
+    //         formData.append(prop, data[prop]);
+    //     }
+    //     console.log(formData);
+    //     return this.http.post(environment.apiUrl + 'categories', formData, { headers: headers }).map((res: Response) => res.json())
+    // }
 
     update(id, data) {
         let headers = new Headers();

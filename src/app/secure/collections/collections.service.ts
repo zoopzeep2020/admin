@@ -9,7 +9,6 @@ export class CollectionsService {
 
     createAuthorizationHeader(headers: Headers) {
         headers.append('Authorization', 'JWT ' + localStorage.getItem('token'));
-
     }
 
     basicAuthorizationHeader(headers: Headers) {
@@ -18,10 +17,10 @@ export class CollectionsService {
 
     constructor(private http: Http) { }
 
-    getAll() {
+    getSingleCollection(id) {
         let headers = new Headers();
         this.basicAuthorizationHeader(headers);
-        return this.http.get(environment.apiUrl + 'collections', { headers: headers }).map((res: Response) => res.json())
+        return this.http.get(environment.apiUrl + 'collections/'+ id, { headers: headers }).map((res: Response) => res.json())
     }
 
     getStore(search, buisnessOnline, buisnessOffline, cityName) {
@@ -84,28 +83,29 @@ export class CollectionsService {
     }
 
 
-    add(data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        const formData = new FormData();
+    // add(data) {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     const formData = new FormData();
 
-        for (var prop in data) {
-            if (Array.isArray(data[prop])) {
-                data[prop].forEach(val => {
-                    formData.append(`${prop}[]`, val);
-                });
-            } else {
-                formData.append(prop, data[prop]);
-            }
-        }
-        console.log(formData);
-        return this.http.post(environment.apiUrl + 'collections', formData, { headers: headers }).map((res: Response) => res.json())
-    }
+    //     for (var prop in data) {
+    //         if (Array.isArray(data[prop])) {
+    //             data[prop].forEach(val => {
+    //                 formData.append(`${prop}[]`, val);
+    //             });
+    //         } else {
+    //             formData.append(prop, data[prop]);
+    //         }
+    //     }
+    //     console.log(formData);
+    //     return this.http.post(environment.apiUrl + 'collections', formData, { headers: headers }).map((res: Response) => res.json())
+    // }
 
     update(id, data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
         const formData = new FormData();
+        console.log(data);
         for (var prop in data) {
             formData.append(prop, data[prop]);
         }

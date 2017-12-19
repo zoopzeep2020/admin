@@ -17,17 +17,17 @@ export class keywordsService {
 
     constructor(private http: Http) { }
 
-    getAll() {
-        let headers = new Headers();
-        this.basicAuthorizationHeader(headers);
-        return this.http.get(environment.apiUrl + 'keywords', { headers: headers }).map((res: Response) => res.json())
-    }
+    // getAll() {
+    //     let headers = new Headers();
+    //     this.basicAuthorizationHeader(headers);
+    //     return this.http.get(environment.apiUrl + 'keywords', { headers: headers }).map((res: Response) => res.json())
+    // }
 
-    add(data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.post(environment.apiUrl + 'keywords', data, { headers: headers }).map((res: Response) => res.json())
-    }
+    // add(data) {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     return this.http.post(environment.apiUrl + 'keywords', data, { headers: headers }).map((res: Response) => res.json())
+    // }
 
     update(id, data) {
         let headers = new Headers();

@@ -41,7 +41,7 @@
     </table>
 </div>
 
-<div class="modal input-modal active" [ngClass]="{'active': currentModal != categoryModal}">
+<div class="modal input-modal active categories-modal" [ngClass]="{'active': currentModal != categoryModal}">
     <div class="box">
         <div class="box-heading">{{modalMode}} Categories</div>
         <form [formGroup]="categoryForm" class="form">
@@ -54,9 +54,12 @@
             <div class="input">
                 <div class="label">Category In-active Image:</div>
                     <div class="fileContainer">
-                        Choose File
-                        <input type="file" fileName="categoryImage" (change)="onFileChange($event)" accept="image/*" placeholder="in active image"
+                        <div class="icon file-overlay">
+                            <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M38 26h-12v12h-4v-12h-12v-4h12v-12h4v12h12v4z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
+                        </div>
+                        <input type="file" fileName="categoryImage" (change)="onFileChange($event,'categoryInActivePicture')" accept="image/*" placeholder="in active image"
                     id="categoryImage" />
+                    <img id="categoryInActivePicture" [attr.src]="modalMode == 'Update'?  apiUrl+categoryForm.controls.categoryImage.value : '../../../assets/images/default.png'" />
                     </div>
                 <input type="hidden" name="fileHidden" formControlName="categoryImage" />
                 <control-messages [control]="categoryForm.controls.categoryImage" class="controlMessage"></control-messages>
@@ -64,9 +67,12 @@
             <div class="input">
                 <div class="label">Category Active Image:</div>
                     <div class="fileContainer">
-                        Choose File
-                        <input type="file" fileName="categoryActiveImage" (change)="onFileChange($event)" accept="image/*" id="categoryActiveImage"
+                        <div class="icon file-overlay">
+                            <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M38 26h-12v12h-4v-12h-12v-4h12v-12h4v12h12v4z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
+                        </div>
+                        <input type="file" fileName="categoryActiveImage" (change)="onFileChange($event,'categoryActivePicture')" accept="image/*" id="categoryActiveImage"
                             placeholder="active image" />
+                    <img id="categoryActivePicture" [attr.src]="modalMode == 'Update'?  apiUrl+categoryForm.controls.categoryActiveImage.value : '../../../assets/images/default.png'" />
                     </div>
                     <input type="hidden" name="fileHidden" formControlName="categoryActiveImage" />
                 <control-messages [control]="categoryForm.controls.categoryActiveImage" class="controlMessage"></control-messages>

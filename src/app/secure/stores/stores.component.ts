@@ -6,13 +6,14 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import * as globals from './../../globals';
 import { storesService } from './stores.service';
+import { SecureService } from './../secure.service';
 
 
 @Component({
   selector: 'app-stores',
   templateUrl: './stores.component.html',
   styleUrls: ['./stores.component.scss'],
-  providers: [storesService]
+  providers: [storesService, SecureService]
 })
 export class StoresComponent implements OnInit {
 
@@ -24,9 +25,8 @@ export class StoresComponent implements OnInit {
   errorMessage: string;
   updateId: String;
 
-  constructor(private _storesService: storesService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+  constructor(private _storesService: storesService, private _secureService : SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
     this.storeForm = this.formBuilder.group({
-
     });
   }
 
@@ -119,10 +119,9 @@ export class StoresComponent implements OnInit {
   }
 
   get() {
-    this._storesService.getAll().subscribe(
+    this._secureService.getAll('stores').subscribe(
       response => {
         this.stores = response['data'];
-        console.log(this.stores);
       },
       err => {
         console.log(JSON.parse(err._body));

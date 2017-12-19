@@ -17,11 +17,11 @@ export class citiesService {
 
     constructor(private http: Http) { }
 
-    getAll() {
-        let headers = new Headers();
-        this.basicAuthorizationHeader(headers);
-        return this.http.get(environment.apiUrl + 'cities', { headers: headers }).map((res: Response) => res.json())
-    }
+    // getAll() {
+    //     let headers = new Headers();
+    //     this.basicAuthorizationHeader(headers);
+    //     return this.http.get(environment.apiUrl + 'cities', { headers: headers }).map((res: Response) => res.json())
+    // }
 
     add(data) {
         let headers = new Headers();

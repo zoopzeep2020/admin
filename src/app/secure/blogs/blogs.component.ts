@@ -6,13 +6,15 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ValidationService } from './../../validationService.service';
 import { environment } from './../../../environments/environment';
 import { BlogsService } from './blogs.service';
+import { SecureService } from './../secure.service';
+
 
 
 @Component({
     selector: 'app-blogs',
     templateUrl: './blogs.component.html',
     styleUrls: ['./blogs.component.scss'],
-    providers: [BlogsService]
+    providers: [BlogsService, SecureService]
 })
 export class BlogsComponent implements OnInit {
 
@@ -25,7 +27,7 @@ export class BlogsComponent implements OnInit {
     errorMessage: string;
     updateId: String;
 
-    constructor(private _blogsService: BlogsService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _blogsService: BlogsService,private _secureService:SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.blogForm = this.formBuilder.group({
             'title': ['', [Validators.required, , Validators.minLength(2)]],
             'blogPicture': ['', [Validators.required, ValidationService.imageValidator]],
@@ -37,11 +39,13 @@ export class BlogsComponent implements OnInit {
         });
     }
 
-    onFileChange($event) {
+    onFileChange($event,imageId) {
+        
+        this._secureService.changePreview($event,imageId);
+
         let fileName = $event.target.getAttribute("fileName");
         this.blogForm.controls[fileName].setValue($event.target.files[0]);
     }
-
     update(index, modal) {
         this.blogForm.patchValue(this.blogs[index]);
         this.updateId = this.blogs[index]._id;
@@ -108,7 +112,7 @@ export class BlogsComponent implements OnInit {
     }
 
     get() {
-        this._blogsService.getAll().subscribe(
+        this._secureService.getAll('blogs/withoutlogin').subscribe(
             response => {
                 this.blogs = response['data'];
                 console.log(this.blogs);
