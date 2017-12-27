@@ -23,11 +23,11 @@ export class citiesService {
     //     return this.http.get(environment.apiUrl + 'cities', { headers: headers }).map((res: Response) => res.json())
     // }
 
-    add(data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.post(environment.apiUrl + 'cities', data, { headers: headers }).map((res: Response) => res.json())
-    }
+    // add(data) {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     return this.http.post(environment.apiUrl + 'cities', data, { headers: headers }).map((res: Response) => res.json())
+    // }
 
     update(id, data) {
         let headers = new Headers();

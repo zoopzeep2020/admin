@@ -76,7 +76,7 @@ export class BlogsComponent implements OnInit {
                     },
                 );
             } else {
-                this._blogsService.add(this.blogForm._value).subscribe(
+                this._secureService.add('blogs', this.blogForm._value).subscribe(
                     response => {
                         this.get();
                         this.currentModal = null;

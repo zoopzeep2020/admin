@@ -4,8 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import * as myGlobals from './globals';
-
 // We need to import the ReactiveFormsModule and HttpModule--for--form 
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';

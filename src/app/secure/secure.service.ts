@@ -42,7 +42,7 @@ export class SecureService {
     }
     add(control, data) {
         console.log('here start adding from secure service');
-        if(control == 'collections' || control == 'categories' ){
+        if(control == 'collections' || control == 'categories' || control == 'blogs' ){
             let headers = new Headers();
             this.createAuthorizationHeader(headers);
             const formData = new FormData();
@@ -59,6 +59,7 @@ export class SecureService {
             console.log('here returns data');
             return this.http.post(environment.apiUrl + control, formData, { headers: headers }).map((res: Response) => res.json())
         }else{
+            console.log('direct returns data');
             let headers = new Headers();
             this.createAuthorizationHeader(headers);
             return this.http.post(environment.apiUrl + control, data, { headers: headers }).map((res: Response) => res.json())

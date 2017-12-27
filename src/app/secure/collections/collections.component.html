@@ -89,7 +89,7 @@
                     <img id="collectionImage" [attr.src]="modalMode == 'Update'?  apiUrl+collectionForm.controls.collectionPicture.value : '../../../assets/images/default.png'" />
                 </div>
                 <input type="hidden" name="fileHidden" formControlName="collectionPicture" />
-                <control-messages [control]="collectionForm.controls.collectionPicture" class="controlMess age"></control-messages>
+                <control-messages [control]="collectionForm.controls.collectionPicture" class="controlMessage"></control-messages>
             </div>
             <div class="input" *ngIf="collectionForm.controls.collectionType.value == 'store'">
                 <div class="label">Select store:</div>

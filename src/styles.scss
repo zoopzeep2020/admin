@@ -981,7 +981,7 @@ button{
                             transition: max-height 0.25s ease-in;
                         }
                     }
-                    &:hover {
+                    &:hover, &.active{
                         cursor: pointer;
                         .icon {
                             svg {

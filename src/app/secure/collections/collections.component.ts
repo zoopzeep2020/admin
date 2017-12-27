@@ -62,14 +62,17 @@ export class CollectionsComponent implements OnInit {
             'buisnessOnline': []
         });
     }
+
     basicAuthorizationHeader(headers: Headers) {
         headers.append('Authorization', 'maximumvsminimumsecurity');
     }
+
     onFileChange($event,imageId) {
         this._secureService.changePreview($event,imageId);
         let fileName = $event.target.getAttribute("fileName");
         this.collectionForm.controls[fileName].setValue($event.target.files[0]);
     }
+
     update(index, modal) {
         this.updateId = this.collections[index]._id;
         this.currentModal = "collectionModal";
@@ -95,7 +98,6 @@ export class CollectionsComponent implements OnInit {
             err => {
             },
         )
-        
     }
 
     add(modal) {

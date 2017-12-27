@@ -64,7 +64,7 @@ export class StaticPagesComponent implements OnInit {
           },
         );
       } else {
-        this._staticPagesService.add(this.staticPageForm._value).subscribe(
+        this._secureService.add('staticPages', this.staticPageForm._value).subscribe(
           response => {
             this.get();
             this.currentModal = null;

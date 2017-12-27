@@ -9,7 +9,6 @@ import { environment } from './../../../environments/environment';
 export class DashboardComponent implements OnInit {
 
   constructor() { }
-
   ngOnInit() {
   }
 

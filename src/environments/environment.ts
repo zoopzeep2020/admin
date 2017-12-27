@@ -5,5 +5,12 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://webrexstudio.com:3001/'
+  apiUrl: 'http://webrexstudio.com:3001/',
+  userId: localStorage.getItem('userId'),
+  userName: localStorage.getItem('userName'),
+  userEmail: localStorage.getItem('userEmail'),
+  userPhone: localStorage.getItem('userPhone'),
+  userType: localStorage.getItem('userType'),
+
+  
 };

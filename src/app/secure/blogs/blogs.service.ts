@@ -23,16 +23,16 @@ export class BlogsService {
     //     return this.http.get(environment.apiUrl + 'blogs/withoutlogin', { headers: headers }).map((res: Response) => res.json())
     // }
 
-    add(data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        const formData = new FormData();
-        for (var prop in data) {
-            formData.append(prop, data[prop]);
-        }
-        console.log(formData);
-        return this.http.post(environment.apiUrl + 'blogs', formData, { headers: headers }).map((res: Response) => res.json())
-    }
+    // add(data) {
+    //     let headers = new Headers();
+    //     this.createAuthorizationHeader(headers);
+    //     const formData = new FormData();
+    //     for (var prop in data) {
+    //         formData.append(prop, data[prop]);
+    //     }
+    //     console.log(formData);
+    //     return this.http.post(environment.apiUrl + 'blogs', formData, { headers: headers }).map((res: Response) => res.json())
+    // }
 
     update(id, data) {
         let headers = new Headers();

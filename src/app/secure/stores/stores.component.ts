@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ValidationService } from './../../validationService.service';
-import * as globals from './../../globals';
 import { storesService } from './stores.service';
 import { SecureService } from './../secure.service';
+import { environment } from './../../../environments/environment';
 
 
 @Component({
@@ -20,7 +20,6 @@ export class StoresComponent implements OnInit {
   stores: any[];
   currentModal: string;
   storeForm: any;
-  apiUrl: string = globals.apiUrl;
   modalMode: string = "Add";
   errorMessage: string;
   updateId: String;
