@@ -7,16 +7,12 @@ import { environment } from './../../../../environments/environment';
   selector: 'app-left-side-bar',
   templateUrl: './left-side-bar.component.html',
   styleUrls: ['./left-side-bar.component.scss'],
-  providers: [ SecureService ]
+  providers: [SecureService]
 })
 export class LeftSideBarComponent implements OnInit {
 
   constructor() { }
-  
-  user = environment.userName;  
-  type = environment.userType;
-  userPicture = environment.apiUrl + environment.userImage;
-  
+
   ngOnInit() {
     console.log(environment.userImage);
   }
