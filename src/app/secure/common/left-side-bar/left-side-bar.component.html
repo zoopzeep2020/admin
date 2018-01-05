@@ -2,9 +2,10 @@
     <div class="left-side-bar">
         <div class="profile-block">
             <div class="profile-image"> 
-                <img src="./../../../../assets/images/profile.jpg">
+                <img [attr.src] = userPicture>
             </div>
             <div class="information">
+
                 <h2>Welcome {{user}}</h2>
                 <span>{{type}}</span>
             </div>

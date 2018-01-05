@@ -15,8 +15,10 @@ export class LeftSideBarComponent implements OnInit {
   
   user = environment.userName;  
   type = environment.userType;
+  userPicture = environment.apiUrl + environment.userImage;
   
   ngOnInit() {
+    console.log(environment.userImage);
   }
 
 }

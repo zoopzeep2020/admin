@@ -82,7 +82,6 @@ export class CollectionsService {
         return this.http.get(environment.apiUrl + 'cities/searchByWord?search=' + search, { headers: headers }).map((res: Response) => res.json())
     }
 
-
     // add(data) {
     //     let headers = new Headers();
     //     this.createAuthorizationHeader(headers);

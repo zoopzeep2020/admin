@@ -11,6 +11,6 @@ export const environment = {
   userEmail: localStorage.getItem('userEmail'),
   userPhone: localStorage.getItem('userPhone'),
   userType: localStorage.getItem('userType'),
-
+  userImage: localStorage.getItem('userPicture'),
   
 };

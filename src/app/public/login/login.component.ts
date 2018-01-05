@@ -48,6 +48,12 @@ export class LoginComponent implements OnInit {
                             localStorage.setItem('userName', response.data.name);
                             localStorage.setItem('userEmail', response.data.email);
                             localStorage.setItem('userPhone', response.data.phone);
+                            if(response.data.userImage != '' || response.data.userImage != null){
+                                localStorage.setItem('userPicture', response.data.userImage);
+                            }
+                            else{
+                                localStorage.setItem('userPicture', 'assets/images/default-picture.jpg');
+                            }
                             if(response.data.isAdmin){
                                 localStorage.setItem('userType', 'Admin');
                             }else if(response.data.isUser){
