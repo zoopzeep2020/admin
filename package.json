@@ -7,6 +7,7 @@
     "start": "ng serve",
     "devapi": "ng build --environment=devapi",
     "webrex": "ng build --environment=webrex",
+    "prod": "ng build --environment=prod",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
