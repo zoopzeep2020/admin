@@ -34,6 +34,14 @@ export class BlogsService {
     //     return this.http.post(environment.apiUrl + 'blogs', formData, { headers: headers }).map((res: Response) => res.json())
     // }
 
+    getSingle(id) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        return this.http.get(environment.apiUrl + 'blogs/' + id, { headers: headers }).map((res: Response) => res.json())
+    }
+
+
+
     update(id, data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);

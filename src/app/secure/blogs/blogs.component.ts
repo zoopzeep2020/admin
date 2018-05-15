@@ -19,7 +19,7 @@ import { SecureService } from './../secure.service';
 export class BlogsComponent implements OnInit {
 
     blogs: any[];
-    blog: any[];
+    blog: any;
     currentModal: any;
     blogForm: any;
     apiUrl: string = environment.apiUrl;
@@ -27,7 +27,7 @@ export class BlogsComponent implements OnInit {
     errorMessage: string;
     updateId: String;
 
-    constructor(private _blogsService: BlogsService,private _secureService:SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
+    constructor(private _blogsService: BlogsService, private _secureService: SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
         this.blogForm = this.formBuilder.group({
             'title': ['', [Validators.required, , Validators.minLength(2)]],
             'blogPicture': ['', [Validators.required, ValidationService.imageValidator]],
@@ -39,19 +39,19 @@ export class BlogsComponent implements OnInit {
         });
     }
 
-    onFileChange($event,imageId) {
-        
-        this._secureService.changePreview($event,imageId);
+    onFileChange($event, imageId) {
+
+        this._secureService.changePreview($event, imageId);
 
         let fileName = $event.target.getAttribute("fileName");
         this.blogForm.controls[fileName].setValue($event.target.files[0]);
     }
+
     update(index, modal) {
-        this.blogForm.patchValue(this.blogs[index]);
-        this.updateId = this.blogs[index]._id;
-        this.currentModal = "blogModal";
-        this.renderer.addClass(document.body, 'modal-active');
-        this.modalMode = "Update";
+        this.getSingle(this.blogs[index]._id)
+
+
+
     }
 
     add(modal) {
@@ -116,6 +116,21 @@ export class BlogsComponent implements OnInit {
             response => {
                 this.blogs = response['data'];
                 console.log(this.blogs);
+            },
+            err => {
+            },
+        )
+    }
+
+    getSingle(id) {
+        this._blogsService.getSingle(id).subscribe(
+            response => {
+                this.blog = response['data'];
+                this.blogForm.patchValue(this.blog);
+                this.updateId = this.blog._id;
+                this.currentModal = "blogModal";
+                this.renderer.addClass(document.body, 'modal-active');
+                this.modalMode = "Update";
             },
             err => {
             },
