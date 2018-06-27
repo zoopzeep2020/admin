@@ -54,7 +54,8 @@
                         <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M38 26h-12v12h-4v-12h-12v-4h12v-12h4v12h12v4z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
                     </div>
                     <input type="file" fileName="blogPicture" (change)="onFileChange($event,'blogImage')" accept="image/*" id="blogPicture" />
-                    <img id="blogImage" [attr.src]="modalMode == 'Update'?  apiUrl+blogForm.controls.blogPicture.value : '../../../assets/images/default.png'" />
+                    <img id="blogImage" [attr.src]="modalMode == 'Update'?  apiUrl+blogForm.controls.blogPicture.value : '../../../assets/images/default.png'"
+                    />
                 </div>
                 <input type="hidden" name="fileHidden" formControlName="blogPicture" />
                 <control-messages [control]="blogForm.controls.blogPicture" class="controlMessage"></control-messages>
@@ -70,8 +71,10 @@
                     <div class="icon file-overlay">
                         <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M38 26h-12v12h-4v-12h-12v-4h12v-12h4v12h12v4z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
                     </div>
-                    <input type="file" fileName="authorImage" (change)="onFileChange($event,'authorPicture')" accept="image/*" id="authorImage" />
-                    <img id="authorPicture" [attr.src]="modalMode == 'Update'?  apiUrl+blogForm.controls.authorImage.value : '../../../assets/images/default.png'" />
+                    <input type="file" fileName="authorImage" (change)="onFileChange($event,'authorPicture')" accept="image/*" id="authorImage"
+                    />
+                    <img id="authorPicture" [attr.src]="modalMode == 'Update'?  apiUrl+blogForm.controls.authorImage.value : '../../../assets/images/default.png'"
+                    />
                 </div>
                 <input type="hidden" name="fileHidden" formControlName="authorImage" />
                 <control-messages [control]="blogForm.controls.authorImage" class="controlMessage"></control-messages>
@@ -86,10 +89,11 @@
                 <input type="text" formControlName="metaKeyword" id="metaKeyword" />
                 <control-messages [control]="blogForm.controls.metaKeyword" class="controlMessage"></control-messages>
             </div>
-            <div class="input">
+            <div class="input editor" [ngClass]="{textarea:editorHtml}">
                 <div class="label">Descirption</div>
-                <quill-editor formControlName="description" [options]="editorConfig">
+                <quill-editor formControlName="description" [options]="editorConfig" (change)="onContentChanged($event)" (ready)="onContentChanged($event)">
                 </quill-editor>
+                <textarea formControlName="descriptionHtml" (change)="changeTextarea($event)"></textarea>
                 <div class="ql-editor preview" [innerHTML]="description"></div>
                 <control-messages [control]="blogForm.controls.description" class="controlMessage"></control-messages>
             </div>

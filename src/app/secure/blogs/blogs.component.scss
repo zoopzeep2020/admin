@@ -1,0 +1,29 @@
+.ql-showHtml {
+    &:after {
+        content: "[source]";
+    }
+}
+
+.editor {
+    textarea {
+        display: none;
+        width: 100%;
+        height: 500px;
+        margin: 0px;
+        background: rgb(29, 29, 29);
+        box-sizing: border-box;
+        color: rgb(204, 204, 204);
+        font-size: 15px;
+        outline: none;
+        padding: 20px;
+        line-height: 24px;
+    }
+    &.textarea {
+        .quill-editor {
+            display: none;
+        }
+        textarea {
+            display: block;
+        }
+    }
+}
