@@ -58,4 +58,20 @@ export class BlogsService {
         this.createAuthorizationHeader(headers);
         return this.http.delete(environment.apiUrl + 'blogs/' + id, { headers: headers }).map((res: Response) => res.json())
     }
+
+    imageUpload(data) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        const formData = new FormData();
+        for (var prop in data) {
+            if (Array.isArray(data[prop])) {
+                data[prop].forEach(val => {
+                    formData.append(`${prop}[]`, val);
+                });
+            } else {
+                formData.append(prop, data[prop]);
+            }
+        }
+        return this.http.post(environment.apiUrl + 'imageupload/', formData, { headers: headers }).map((res: Response) => res.json())
+    }
 }

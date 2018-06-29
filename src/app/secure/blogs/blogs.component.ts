@@ -29,7 +29,6 @@ export class BlogsComponent implements OnInit {
     updateId: String;
     editorHtml: boolean = false;
     txtArea: any;
-
     editorConfig: any = {
         modules: {
             toolbar: [
@@ -56,10 +55,9 @@ export class BlogsComponent implements OnInit {
 
                 // link and image, video
             ]
-        }
-
+        },
     }
-
+    quill: any;
 
 
     constructor(private _blogsService: BlogsService, private _secureService: SecureService, private formBuilder: FormBuilder, private renderer: Renderer2) {
@@ -88,6 +86,7 @@ export class BlogsComponent implements OnInit {
         this.textarea();
 
     }
+
 
     add(modal) {
         this.currentModal = "blogModal";
@@ -180,49 +179,75 @@ export class BlogsComponent implements OnInit {
         // this.txtArea.value = event.html;
     }
 
+    onEditorCreated(event) {
+        console.log(event);
+        var toolbar = event.getModule('toolbar');
+        toolbar.addHandler('image', this.imageHandler);
+        this.blogForm.controls['descriptionHtml'].setValue(event.html);
+        this.quill = event;
+    }
+
+    uploadFile(event) {
+        console.log(event);
+        const file = event.target.files[0];
+        let data = {
+            image: file
+        }
+        this._blogsService.imageUpload(data).subscribe(response => {
+            const range = this.quill.getSelection(true);
+            const index = range.index + range.length;
+            this.quill.insertEmbed(range.index, 'image', environment.apiUrl + response.data.image);
+        },
+            err => {
+            },
+        );
+    }
+
+    imageHandler(value) {
+        console.log(value);
+        document.getElementById('fileSelectBox').click();
+        // const Imageinput = document.createElement('input');
+        // Imageinput.setAttribute('type', 'file');
+        // Imageinput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
+        // Imageinput.classList.add('ql-image');
+        // Imageinput.addEventListener('change', () => {
+        //     const file = Imageinput.files[0];
+        //     let data = {
+        //         image: file
+        //     }
+        //     console.log(file);
+        //     this.uploadFile(data);
+        //     const range = this.quill.getSelection(true);
+        //     const index = range.index + range.length;
+
+        //     this.quill.insertEmbed(range.index, 'image', "http://www.zeepzoop.com/images/logo.png");
+        //     // if (Imageinput.files != null && Imageinput.files[0] != null) {
+        //     //     this._service.sendFileToServer(file).subscribe(res => {
+        //     //         this._returnedURL = res;
+        //     //         this.pushImageToEditor();
+        //     //     });
+        //     // }
+        // });
+
+        // Imageinput.click();
+    }
+
+    pushImageToEditor() {
+        console.log(this);
+        const range = this.quill.getSelection(true);
+        const index = range.index + range.length;
+        this.quill.insertEmbed(range.index, 'image', "http://www.zeepzoop.com/images/logo.png");
+    }
+
     changeTextarea(event) {
         this.blogForm.controls['description'].setValue(this.blogForm.controls['descriptionHtml'].value);
-
         console.log(this.blogForm.controls['descriptionHtml'].value)
     }
 
     textarea() {
-        this.txtArea = document.createElement('textarea');
-        this.txtArea.style.cssText = "width: 100%;margin: 0px;background: rgb(29, 29, 29);box-sizing: border-box;color: rgb(204, 204, 204);font-size: 15px;outline: none;padding: 20px;line-height: 24px;font-family: Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace;position: absolute;top: 0;bottom: 0;border: none;display:none;"
-
-        var myEditor = document.querySelector('.quill-editor')
-        var htmlEditor = document.querySelector('.quill-editor')
-
-        console.log(myEditor, htmlEditor);
-        htmlEditor.appendChild(this.txtArea)
-        // = this.editorHtml;
-        console.log(this.txtArea);
-        // quill.on('text-change', (delta, oldDelta, source) => {
-        //     var html = myEditor.children[0].innerHTML
-        //     txtArea.value = html
-        // })
-
         var customButton = document.querySelector('.ql-showHtml');
-        console.log(customButton);
         customButton.addEventListener('click', () => {
             this.editorHtml = !this.editorHtml;
-            console.log(this.editorHtml);
-            // console.log(this.txtArea);
-            // console.log(this.txtArea.value);
-            // if (this.txtArea.style.display === '') {
-            //     var html = this.txtArea.value;
-            //     console.log(this.txtArea.value);
-            //     setTimeout(() => {
-            //         // this.blogForm.controls['description'].setValue(html);
-            //     });
-            // }
-            // setTimeout(() => {
-            //     this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none'
-            // }, 1000);
-        });
-
-        this.txtArea.addEventListener('change', (e) => {
-            console.log(e.target.value)
         });
     }
 
