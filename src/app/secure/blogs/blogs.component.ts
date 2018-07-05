@@ -70,6 +70,8 @@ export class BlogsComponent implements OnInit {
             'metaDescription': ['', [Validators.required, Validators.minLength(100)]],
             'metaKeyword': ['', [Validators.required]],
             'descriptionHtml': ['', [Validators.required]],
+            'autherInfo': ['', [Validators.required]],
+            'category': ['', [Validators.required]],
         });
     }
 
@@ -97,7 +99,6 @@ export class BlogsComponent implements OnInit {
     }
 
     addOREditBlog() {
-        console.log(this.blogForm._value);
         if (this.blogForm.dirty && this.blogForm.valid) {
             if (this.modalMode === "Update") {
                 this._blogsService.update(this.updateId, this.blogForm._value).subscribe(
@@ -125,7 +126,6 @@ export class BlogsComponent implements OnInit {
                 );
             }
         } else {
-            console.log(this.blogForm);
             ValidationService.validateAllFormFields(this.blogForm);
         }
     }
@@ -151,7 +151,6 @@ export class BlogsComponent implements OnInit {
         this._secureService.getAll('blogs/withoutlogin').subscribe(
             response => {
                 this.blogs = response['data'];
-                console.log(this.blogs);
             },
             err => {
             },
@@ -174,13 +173,11 @@ export class BlogsComponent implements OnInit {
     }
 
     onContentChanged(event) {
-        console.log(event);
         this.blogForm.controls['descriptionHtml'].setValue(event.html);
         // this.txtArea.value = event.html;
     }
 
     onEditorCreated(event) {
-        console.log(event);
         var toolbar = event.getModule('toolbar');
         toolbar.addHandler('image', this.imageHandler);
         this.blogForm.controls['descriptionHtml'].setValue(event.html);
@@ -188,7 +185,6 @@ export class BlogsComponent implements OnInit {
     }
 
     uploadFile(event) {
-        console.log(event);
         const file = event.target.files[0];
         let data = {
             image: file
@@ -204,7 +200,6 @@ export class BlogsComponent implements OnInit {
     }
 
     imageHandler(value) {
-        console.log(value);
         document.getElementById('fileSelectBox').click();
         // const Imageinput = document.createElement('input');
         // Imageinput.setAttribute('type', 'file');
@@ -233,7 +228,6 @@ export class BlogsComponent implements OnInit {
     }
 
     pushImageToEditor() {
-        console.log(this);
         const range = this.quill.getSelection(true);
         const index = range.index + range.length;
         this.quill.insertEmbed(range.index, 'image', "http://www.zeepzoop.com/images/logo.png");
@@ -241,7 +235,6 @@ export class BlogsComponent implements OnInit {
 
     changeTextarea(event) {
         this.blogForm.controls['description'].setValue(this.blogForm.controls['descriptionHtml'].value);
-        console.log(this.blogForm.controls['descriptionHtml'].value)
     }
 
     textarea() {

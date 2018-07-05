@@ -80,6 +80,11 @@
                 <control-messages [control]="blogForm.controls.authorImage" class="controlMessage"></control-messages>
             </div>
             <div class="input">
+                <div class="label">Auther Bio</div>
+                <input type="text" formControlName="autherInfo" id="autherInfo" />
+                <control-messages [control]="blogForm.controls.autherInfo" class="controlMessage"></control-messages>
+            </div>
+            <div class="input">
                 <div class="label">Meta Description</div>
                 <input type="text" formControlName="metaDescription" id="metaDescription" />
                 <control-messages [control]="blogForm.controls.metaDescription" class="controlMessage"></control-messages>
@@ -88,6 +93,18 @@
                 <div class="label">Meta Keyword</div>
                 <input type="text" formControlName="metaKeyword" id="metaKeyword" />
                 <control-messages [control]="blogForm.controls.metaKeyword" class="controlMessage"></control-messages>
+            </div>
+            <div class="input">
+                <div class="label">Category</div>
+                <select formControlName="category">
+                    <option>Fashion</option>
+                    <option>Brand Stories</option>
+                    <option>Wedding Bells</option>
+                    <option>Culture & Heritage</option>
+                    <option>Home Decor</option>
+                    <option>Around The World</option>
+                </select>
+                <control-messages [control]="blogForm.controls.category" class="controlMessage"></control-messages>
             </div>
             <div class="input editor" [ngClass]="{textarea:editorHtml}">
                 <div class="label">Descirption</div>
