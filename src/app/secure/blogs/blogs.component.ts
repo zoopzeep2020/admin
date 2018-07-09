@@ -29,6 +29,8 @@ export class BlogsComponent implements OnInit {
     updateId: String;
     editorHtml: boolean = false;
     txtArea: any;
+    startBlogs = 0;
+    endBlogs = 9;
     editorConfig: any = {
         modules: {
             toolbar: [
@@ -148,7 +150,7 @@ export class BlogsComponent implements OnInit {
     }
 
     get() {
-        this._secureService.getAll('blogs/withoutlogin').subscribe(
+        this._blogsService.getAll(this.startBlogs, this.endBlogs).subscribe(
             response => {
                 this.blogs = response['data'];
             },
@@ -225,6 +227,20 @@ export class BlogsComponent implements OnInit {
         // });
 
         // Imageinput.click();
+    }
+
+    loadMoreBlog() {
+        this.startBlogs += 10;
+        this.endBlogs += 10;
+
+        this._blogsService.getAll(this.startBlogs, this.endBlogs).subscribe(
+            response => {
+                this.blogs = this.blogs.concat(response.data);
+                console.log(this.blog);
+            },
+            err => {
+            },
+        )
     }
 
     pushImageToEditor() {

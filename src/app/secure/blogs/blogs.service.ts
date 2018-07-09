@@ -59,6 +59,12 @@ export class BlogsService {
         return this.http.delete(environment.apiUrl + 'blogs/' + id, { headers: headers }).map((res: Response) => res.json())
     }
 
+    getAll(startBlogs, endBlogs) {
+        let headers = new Headers();
+        this.basicAuthorizationHeader(headers);
+        return this.http.get(environment.apiUrl + 'blogs/search?startBlogs=' + startBlogs + '&endBlogs=' + endBlogs, { headers: headers }).map((res: Response) => res.json())
+    }
+
     imageUpload(data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
